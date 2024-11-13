@@ -27,7 +27,7 @@ generation_config = genai.GenerationConfig(
   temperature = 0,
 )
 
-st.set_page_config(page_title="Sherwood Intern", page_icon=":face_with_cowboy_hat:",)
+st.set_page_config(page_title="Sherwood Intern", page_icon=":face_with_cowboy_hat:")
 
 with st.expander("Click to read documentation"):
   st.write("Sherwood Intern)
