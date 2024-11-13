@@ -67,7 +67,7 @@ Model_Option = st.selectbox("What Large Language Model do I use?", ('Gemini 1.5 
 
 Country_Option = st.text_input("What is the name of the country?", "Lao People\'s Democratic Republic")
 
-Customised_Prompt = st.text_area("You may wish to modify the prompt below.", prompt) + "\n# INPUT COUNTRY\n<INPUT_COUNTRY>\n" + Country_Option + "\n</INPUT_COUNTRY>\n"
+Customised_Prompt = st.text_area("You may wish to modify the prompt below.", prompt) + "\n# INPUT COUNTRY # <INPUT_COUNTRY>\n" + Country_Option + "\n</INPUT_COUNTRY>\n"
 
 if st.button("Let\'s Go! :rocket:"):
   try:
@@ -77,7 +77,7 @@ if st.button("Let\'s Go! :rocket:"):
       
       if Model_Option == "Gemini 1.5 Pro":
         gemini = genai.GenerativeModel("gemini-1.5-pro-002")
-        response = gemini.generate_content(customised_prompt, safety_settings = safety_settings, generation_config = generation_config, tools = "google_search_retrieval")
+        response = gemini.generate_content(Customised_Prompt, safety_settings = safety_settings, generation_config = generation_config, tools = "google_search_retrieval")
         output_text = response.text
         st.write("**Sources**")
         candidates = response.candidates
