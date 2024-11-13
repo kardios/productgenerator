@@ -61,7 +61,7 @@ st.write("**Sherwood Intern** :face_with_cowboy_hat:")
 with st.expander("Click to read documentation"):
   st.write("Sherwood Intern")
 
-Model_Option = st.selectbox("What Large Language Model do I use?", ('Gemini 1.5 Pro', 'Llama 3.1 Sonar'))
+Model_Option = st.selectbox("What Large Language Model do I use?", ('Gemini 1.5 Pro'))
 
 Country_Option = st.text_input("What is the name of the country?", "Lao People\'s Democratic Republic")
 
