@@ -27,11 +27,6 @@ generation_config = genai.GenerationConfig(
   temperature = 0,
 )
 
-st.set_page_config(page_title="Sherwood Intern", page_icon=":face_with_cowboy_hat:")
-st.write("**Sherwood Intern** :face_with_cowboy_hat:")
-with st.expander("Click to read documentation"):
-  st.write("Sherwood Intern")
-
 prompt = """
 # CONTEXT # You are an expert political and economic analyst.
 
@@ -63,6 +58,11 @@ prompt = """
 6. **International Relations**. Describe in detail the country's foreign policy orientation. Summarise the country's foreign relations with key international partners, with particular attention to ASEAN, its neighbouring countries, and Singapore.
 """
 
+st.set_page_config(page_title="Sherwood Intern", page_icon=":face_with_cowboy_hat:")
+st.write("**Sherwood Intern** :face_with_cowboy_hat:")
+with st.expander("Click to read documentation"):
+  st.write("Sherwood Intern")
+
 Model_Option = st.selectbox("What Large Language Model do I use?", ('Gemini 1.5 Pro', 'Llama 3.1 Sonar'))
 
 Country_Option = st.text_input("What is the name of the country?", "Lao People\'s Democratic Republic")
@@ -75,7 +75,7 @@ if st.button("Let\'s Go! :rocket:"):
     
       start = time.time()
       
-      if Model_Option == "Gemini 1.5 Pro (G)":
+      if Model_Option == "Gemini 1.5 Pro":
         gemini = genai.GenerativeModel("gemini-1.5-pro-002")
         response = gemini.generate_content(prompt, safety_settings = safety_settings, generation_config = generation_config, tools = "google_search_retrieval")
         output_text = response.text
@@ -93,7 +93,7 @@ if st.button("Let\'s Go! :rocket:"):
     output_container = st.container(border=True)
     output_container.write(output_text)
     output_container.write("Time to generate: " + str(round(end-start,2)) + " seconds")
-    bot.send_message(chat_id=recipient_user_id, text="Sherwood Lab" + "\n" + Option_Input + "\n" + Model_Option + "\n" + Prompt_Option)
+    bot.send_message(chat_id=recipient_user_id, text="Sherwood Intern" + "\n" + Model_Option + "\n" + Country_Option)
     st_copy_to_clipboard(output_text)
 
   except:
