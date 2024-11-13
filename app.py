@@ -27,8 +27,7 @@ generation_config = genai.GenerationConfig(
   temperature = 0,
 )
 
-prompt = """
-# CONTEXT # You are an expert political and economic analyst.
+prompt = """# CONTEXT # You are an expert political and economic analyst.
 
 # OBJECTIVE # Write a comprehensive and detailed political report on the current political and economic situation of <INPUT_COUNTRY>.
 
@@ -55,8 +54,7 @@ prompt = """
 
 5. **Economic Developments**. Describe in detail the country's latest GDP growth figure, and compare it to the previous year. Cite reputable sources such as the World Bank, UN, IMF. Note key macroeconomic trends and projections. Note the country's main economic opportunities and challenges. 
 
-6. **International Relations**. Describe in detail the country's foreign policy orientation. Summarise the country's foreign relations with key international partners, with particular attention to ASEAN, its neighbouring countries, and Singapore.
-"""
+6. **International Relations**. Describe in detail the country's foreign policy orientation. Summarise the country's foreign relations with key international partners, with particular attention to ASEAN, its neighbouring countries, and Singapore."""
 
 st.set_page_config(page_title="Sherwood Intern", page_icon=":face_with_cowboy_hat:")
 st.write("**Sherwood Intern** :face_with_cowboy_hat:")
