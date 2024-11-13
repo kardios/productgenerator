@@ -56,8 +56,7 @@ prompt = """# CONTEXT # You are an expert political and economic analyst.
 
 6. **International Relations**. Describe in detail the country's foreign policy orientation. Summarise the country's foreign relations with key international partners, with particular attention to ASEAN, its neighbouring countries, and Singapore."""
 
-countries = [
-    "Afghanistan", "Albania", "Algeria", "Andorra", "Angola", "Antigua and Barbuda", "Argentina", "Armenia",
+countries = ("Afghanistan", "Albania", "Algeria", "Andorra", "Angola", "Antigua and Barbuda", "Argentina", "Armenia",
     "Australia", "Austria", "Azerbaijan", "Bahamas", "Bahrain", "Bangladesh", "Barbados", "Belarus", "Belgium",
     "Belize", "Benin", "Bhutan", "Bolivia", "Bosnia and Herzegovina", "Botswana", "Brazil", "Brunei", "Bulgaria",
     "Burkina Faso", "Burundi", "Cabo Verde", "Cambodia", "Cameroon", "Canada", "Central African Republic", "Chad",
@@ -79,7 +78,7 @@ countries = [
     "Sri Lanka", "Sudan", "Suriname", "Sweden", "Switzerland", "Syria", "Tajikistan", "Tanzania", "Thailand",
     "Timor-Leste", "Togo", "Tonga", "Trinidad and Tobago", "Tunisia", "Turkey", "Turkmenistan", "Tuvalu", "Uganda",
     "Ukraine", "United Arab Emirates", "United Kingdom", "United States of America", "Uruguay", "Uzbekistan", "Vanuatu",
-    "Venezuela", "Vietnam", "Yemen", "Zambia", "Zimbabwe"]
+    "Venezuela", "Vietnam", "Yemen", "Zambia", "Zimbabwe")
 
 st.set_page_config(page_title="Sherwood Intern", page_icon=":face_with_cowboy_hat:")
 st.write("**Sherwood Intern** :face_with_cowboy_hat:")
@@ -88,7 +87,7 @@ with st.expander("Click to read documentation"):
 
 Model_Option = st.selectbox("What Large Language Model do I use?", ('Gemini 1.5 Pro'))
 
-Country_Option = st.selectbox("What is the name of the country?", countries[0], countries)
+Country_Option = st.selectbox("What is the name of the country?", "Afghanistan", countries)
 
 Customised_Prompt = st.text_area("You may wish to modify the prompt below.", prompt) + "\n# INPUT COUNTRY # <INPUT_COUNTRY>\n" + Country_Option + "\n</INPUT_COUNTRY>\n"
 
