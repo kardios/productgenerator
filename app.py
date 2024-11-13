@@ -28,7 +28,7 @@ generation_config = genai.GenerationConfig(
 )
 
 st.set_page_config(page_title="Sherwood Intern", page_icon=":face_with_cowboy_hat:")
-
+st.write("**Sherwood Intern** :face_with_cowboy_hat:")
 with st.expander("Click to read documentation"):
   st.write("Sherwood Intern")
 
