@@ -88,7 +88,7 @@ with st.expander("Click to read documentation"):
 
 Model_Option = st.selectbox("What Large Language Model do I use?", ('Gemini 1.5 Pro'))
 
-Country_Option = st.text_input("What is the name of the country?", countries[0], countries)
+Country_Option = st.selectbox("What is the name of the country?", countries[0], countries)
 
 Customised_Prompt = st.text_area("You may wish to modify the prompt below.", prompt) + "\n# INPUT COUNTRY # <INPUT_COUNTRY>\n" + Country_Option + "\n</INPUT_COUNTRY>\n"
 
