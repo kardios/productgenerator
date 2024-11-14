@@ -97,8 +97,11 @@ if st.session_state.keywords:
   for keyword in st.session_state.keywords:
     if st.button(f"Remove '{keyword}'", key = f"remove_{keyword}"):
       st.session_state.keywords.remove(keyword)
-else:
-  st.info("No countries added yet.")
+
+if st.session_state.keywords:
+  for keyword in st.session_state.keywords:
+    st.info(keyword)
+
 Model_Option = st.selectbox("What Large Language Model do I use?", ('Gemini 1.5 Pro'))
 
 Country_Option = st.selectbox("What is the name of the country?", countries)
