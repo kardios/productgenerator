@@ -89,7 +89,7 @@ if "keywords" not in st.session_state:
   st.session_state.keywords = []
 
 new_keyword = st.text_input("Add a new country:")
-if st.button = st.text_input("Add"):
+if st.button("Add"):
   if new_keyword and new_keyword not in st.session_state.keywords:
     st.session_state.keywords.append(new_keyword)
 
