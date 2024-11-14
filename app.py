@@ -99,8 +99,10 @@ if st.session_state.keywords:
       st.session_state.keywords.remove(keyword)
 
 if st.session_state.keywords:
+  keywords_string = ""
   for keyword in st.session_state.keywords:
-    st.info(keyword)
+    keywords_string = keywords_string + keyword + " "  
+  st.info(keyword)
 
 Model_Option = st.selectbox("What Large Language Model do I use?", ('Gemini 1.5 Pro'))
 
