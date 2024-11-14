@@ -85,24 +85,24 @@ st.write("**Sherwood Intern** :face_with_cowboy_hat:")
 with st.expander("Click to read documentation"):
   st.write("Sherwood Intern")
 
-if "keywords" not in st.session_state:
-  st.session_state.keywords = []
+#if "keywords" not in st.session_state:
+#  st.session_state.keywords = []
 
-new_keyword = st.text_input("Add a new country:")
-if st.button("Add"):
-  if new_keyword and new_keyword not in st.session_state.keywords:
-    st.session_state.keywords.append(new_keyword)
+#new_keyword = st.text_input("Add a new country:")
+#if st.button("Add"):
+#  if new_keyword and new_keyword not in st.session_state.keywords:
+#    st.session_state.keywords.append(new_keyword)
 
-if st.session_state.keywords:
-  for keyword in st.session_state.keywords:
-    if st.button(f"Remove '{keyword}'", key = f"remove_{keyword}"):
-      st.session_state.keywords.remove(keyword)
+#if st.session_state.keywords:
+#  for keyword in st.session_state.keywords:
+#    if st.button(f"Remove '{keyword}'", key = f"remove_{keyword}"):
+#      st.session_state.keywords.remove(keyword)
 
-if st.session_state.keywords:
-  keywords_string = ""
-  for keyword in st.session_state.keywords:
-    keywords_string = keywords_string + keyword + " "  
-  st.info(keywords_string)
+#if st.session_state.keywords:
+#  keywords_string = ""
+#  for keyword in st.session_state.keywords:
+#    keywords_string = keywords_string + keyword + " "  
+#  st.info(keywords_string)
 
 Model_Option = st.selectbox("What Large Language Model do I use?", ('Gemini 1.5 Pro'))
 
