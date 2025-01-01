@@ -57,25 +57,6 @@ st.write("**Sherwood CV Generator** :face_with_cowboy_hat:")
 with st.expander("Click to read documentation"):
   st.write("Sherwood CV Generator")
 
-#if "keywords" not in st.session_state:
-#  st.session_state.keywords = []
-
-#new_keyword = st.text_input("Add a new country:")
-#if st.button("Add"):
-#  if new_keyword and new_keyword not in st.session_state.keywords:
-#    st.session_state.keywords.append(new_keyword)
-
-#if st.session_state.keywords:
-#  for keyword in st.session_state.keywords:
-#    if st.button(f"Remove '{keyword}'", key = f"remove_{keyword}"):
-#      st.session_state.keywords.remove(keyword)
-
-#if st.session_state.keywords:
-#  keywords_string = ""
-#  for keyword in st.session_state.keywords:
-#    keywords_string = keywords_string + keyword + " "  
-#  st.info(keywords_string)
-
 Model_Option = st.selectbox("What Large Language Model do I use?", ('Gemini 1.5 Pro'))
 Name_of_Person = st.text_input("Enter the name of the person whose CV you would like to generate:")
 Customised_Prompt = generate_prompt(Name_of_Person)
@@ -89,7 +70,7 @@ if st.button("Let\'s Go! :rocket:") and Name_of_Person.strip()!="":
         gemini = genai.GenerativeModel("gemini-1.5-pro-002")
         response = gemini.generate_content(Customised_Prompt, safety_settings = safety_settings, generation_config = generation_config, tools = "google_search_retrieval")
         output_text = response.text
-        st.write("**Sources**")
+        st.write("Sources for " + Name_of_Person)
         candidates = response.candidates
         grounding_metadata = candidates[0].grounding_metadata
         grounding_chunks = grounding_metadata.grounding_chunks
@@ -99,7 +80,7 @@ if st.button("Let\'s Go! :rocket:") and Name_of_Person.strip()!="":
           st.write(f"[{title}]({uri})")
       end = time.time()
 
-      with st.expander(Name_of_Person + " Gemini 1.5 Pro"):
+      with st.expander("CV of " + Name_of_Person):
         st.write(output_text)
         st.write("Time to generate: " + str(round(end-start,2)) + " seconds")
         st_copy_to_clipboard(output_text)
