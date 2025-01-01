@@ -104,7 +104,7 @@ if st.button("Let\'s Go! :rocket:"):
     output_container = st.container(border=True)
     output_container.write(output_text)
     output_container.write("Time to generate: " + str(round(end-start,2)) + " seconds")
-    bot.send_message(chat_id=recipient_user_id, text="Sherwood CV Gen" + "\n" + Model_Option + "\n" + Country_Option)
+    bot.send_message(chat_id=recipient_user_id, text="Sherwood CV Gen" + "\n" + Model_Option + "\n" + Name_of_Person)
     st_copy_to_clipboard(output_text)
 
   except:
