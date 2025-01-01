@@ -27,8 +27,9 @@ generation_config = genai.GenerationConfig(
   temperature = 0,
 )
 
-prompt = """###Instruction###
-Create a comprehensive biography of [individual] detailing the personal background, education, career progression, and other significant appointments or achievements. The biography should be structured as follows:
+def generate_prompt(individual):
+    prompt = f"""###Instruction###
+Create a comprehensive biography of {individual} detailing the personal background, education, career progression, and other significant appointments or achievements. The biography should be structured as follows:
 
 1. **NAME**: Full name of the individual.
 2. **GOVERNMENT POSITION**: Current or most recent government position held.
@@ -49,11 +50,12 @@ This format is designed to provide a clear and detailed overview of an individua
 [INFO]
 
 ###Biography###"""
+    return prompt
 
-st.set_page_config(page_title="Sherwood Intern", page_icon=":face_with_cowboy_hat:")
-st.write("**Sherwood Intern** :face_with_cowboy_hat:")
+st.set_page_config(page_title="Sherwood CV Generator", page_icon=":face_with_cowboy_hat:")
+st.write("**Sherwood CV Generator** :face_with_cowboy_hat:")
 with st.expander("Click to read documentation"):
-  st.write("Sherwood Intern")
+  st.write("Sherwood CV Generator")
 
 #if "keywords" not in st.session_state:
 #  st.session_state.keywords = []
@@ -75,8 +77,8 @@ with st.expander("Click to read documentation"):
 #  st.info(keywords_string)
 
 Model_Option = st.selectbox("What Large Language Model do I use?", ('Gemini 1.5 Pro'))
-
-Customised_Prompt = st.text_area("You may wish to modify the CV generation prompt below.", prompt)
+Name_of_Person = st.text_area("Enter the name of the person whose CV you would like to generate:")
+Customised_Prompt = generate_prompt(Name_of_Person)
 
 if st.button("Let\'s Go! :rocket:"):
   try:
