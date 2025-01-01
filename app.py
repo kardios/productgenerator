@@ -80,7 +80,7 @@ Model_Option = st.selectbox("What Large Language Model do I use?", ('Gemini 1.5 
 Name_of_Person = st.text_input("Enter the name of the person whose CV you would like to generate:")
 Customised_Prompt = generate_prompt(Name_of_Person)
 
-if st.button("Let\'s Go! :rocket:") and Name_of_Person.strip()!="" 
+if st.button("Let\'s Go! :rocket:") and Name_of_Person.strip()!="":
   try:
     with st.spinner("Running AI Model....."):
     
