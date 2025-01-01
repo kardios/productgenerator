@@ -85,7 +85,6 @@ if st.button("Let\'s Go! :rocket:"):
     with st.spinner("Running AI Model....."):
     
       start = time.time()
-      
       if Model_Option == "Gemini 1.5 Pro":
         gemini = genai.GenerativeModel("gemini-1.5-pro-002")
         response = gemini.generate_content(Customised_Prompt, safety_settings = safety_settings, generation_config = generation_config, tools = "google_search_retrieval")
@@ -98,14 +97,14 @@ if st.button("Let\'s Go! :rocket:"):
           uri = chunk.web.uri
           title = chunk.web.title
           st.write(f"[{title}]({uri})")
-      
       end = time.time()
 
-    output_container = st.container(border=True)
-    output_container.write(output_text)
-    output_container.write("Time to generate: " + str(round(end-start,2)) + " seconds")
-    bot.send_message(chat_id=recipient_user_id, text="Sherwood CV Gen" + "\n" + Model_Option + "\n" + Name_of_Person)
-    st_copy_to_clipboard(output_text)
+      with st.expander(Name_of_Person + " Gemini 1.5 Pro"):
+        st.write(output_text)
+        st.write("Time to generate: " + str(round(end-start,2)) + " seconds")
+    
+      bot.send_message(chat_id=recipient_user_id, text="Sherwood CV Gen" + "\n" + Model_Option + "\n" + Name_of_Person)
+      st_copy_to_clipboard(output_text)
 
   except:
     st.error(" Error occurred when running model", icon="🚨")
