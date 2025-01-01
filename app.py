@@ -85,7 +85,7 @@ if st.button("Let\'s Go! :rocket:"):
       start = time.time()
       
       if Model_Option == "Gemini 1.5 Pro":
-        gemini = genai.GenerativeModel("gemini-2.0-flash-exp")
+        gemini = genai.GenerativeModel("gemini-1.5-pro-002")
         response = gemini.generate_content(Customised_Prompt, safety_settings = safety_settings, generation_config = generation_config, tools = "google_search_retrieval")
         output_text = response.text
         st.write("**Sources**")
