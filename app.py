@@ -54,8 +54,8 @@ This format is designed to provide a clear and detailed overview of an individua
 
 st.set_page_config(page_title="Sherwood CV Generator", page_icon=":face_with_cowboy_hat:")
 st.write("**Sherwood CV Generator** :face_with_cowboy_hat:")
-with st.expander("Click to read documentation"):
-  st.write("Sherwood CV Generator")
+#with st.expander("Click to read documentation"):
+#  st.write("Sherwood CV Generator")
 
 Model_Option = st.selectbox("What Large Language Model do I use?", ('Gemini 1.5 Pro'))
 Name_of_Person = st.text_input("Enter the name of the person whose CV you would like to generate:")
@@ -70,21 +70,32 @@ if st.button("Let\'s Go! :rocket:") and Name_of_Person.strip()!="":
         gemini = genai.GenerativeModel("gemini-1.5-pro-002")
         response = gemini.generate_content(Customised_Prompt, safety_settings = safety_settings, generation_config = generation_config, tools = "google_search_retrieval")
         output_text = response.text
-        st.write("Sources for " + Name_of_Person)
-        candidates = response.candidates
-        grounding_metadata = candidates[0].grounding_metadata
-        grounding_chunks = grounding_metadata.grounding_chunks
-        for chunk in grounding_chunks:
-          uri = chunk.web.uri
-          title = chunk.web.title
-          st.write(f"[{title}]({uri})")
+        with st.expander("Sources for " + Name_of_Person):
+          st.write("Sources for " + Name_of_Person)
+          candidates = response.candidates
+          grounding_metadata = candidates[0].grounding_metadata
+          grounding_chunks = grounding_metadata.grounding_chunks
+          for chunk in grounding_chunks:
+            uri = chunk.web.uri
+            title = chunk.web.title
+            st.write(f"[{title}]({uri})")
+        
+        #st.write("Sources for " + Name_of_Person)
+        #candidates = response.candidates
+        #grounding_metadata = candidates[0].grounding_metadata
+        #grounding_chunks = grounding_metadata.grounding_chunks
+        #for chunk in grounding_chunks:
+        #  uri = chunk.web.uri
+        #  title = chunk.web.title
+        #  st.write(f"[{title}]({uri})")
       end = time.time()
 
       with st.expander("CV of " + Name_of_Person):
         st.write(output_text)
         st.write("Time to generate: " + str(round(end-start,2)) + " seconds")
         st_copy_to_clipboard(output_text)
-      
+
+      st.snow()
       bot.send_message(chat_id=recipient_user_id, text="Sherwood CV Gen" + "\n" + Model_Option + "\n" + Name_of_Person)
       
   except:
