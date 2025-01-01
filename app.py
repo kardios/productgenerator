@@ -80,7 +80,7 @@ Model_Option = st.selectbox("What Large Language Model do I use?", ('Gemini 1.5 
 Name_of_Person = st.text_input("Enter the name of the person whose CV you would like to generate:")
 Customised_Prompt = generate_prompt(Name_of_Person)
 
-if st.button("Let\'s Go! :rocket:"):
+if st.button("Let\'s Go! :rocket:") and Name_of_Person.strip()!="" 
   try:
     with st.spinner("Running AI Model....."):
     
@@ -102,9 +102,9 @@ if st.button("Let\'s Go! :rocket:"):
       with st.expander(Name_of_Person + " Gemini 1.5 Pro"):
         st.write(output_text)
         st.write("Time to generate: " + str(round(end-start,2)) + " seconds")
-    
+        st_copy_to_clipboard(output_text)
+      
       bot.send_message(chat_id=recipient_user_id, text="Sherwood CV Gen" + "\n" + Model_Option + "\n" + Name_of_Person)
-      st_copy_to_clipboard(output_text)
-
+      
   except:
     st.error(" Error occurred when running model", icon="🚨")
