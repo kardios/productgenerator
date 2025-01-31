@@ -1,4 +1,5 @@
 streamlit >= 1.22.0
 google-generativeai
+openai >= 1.00
 pyTelegramBotAPI
 st-copy-to-clipboard
