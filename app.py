@@ -53,7 +53,7 @@ This format is designed to provide a clear and detailed overview of an individua
 ###Biography###"""
     return prompt
 
-def generate_dvlpmts_prompt(country):
+def generate_developments_prompt(country):
   prompt = f"""# CONTEXT #
 You are an expert political and economic analyst.
 
@@ -86,19 +86,19 @@ The report should be structured as follows:
   return prompt 
 
 st.set_page_config(page_title="Sherwood Products Generator", page_icon=":face_with_cowboy_hat:")
-st.write("**Sherwood Products Generator** :face_with_cowboy_hat:")
+st.write("**Sherwood Generator** :face_with_cowboy_hat:")
 #with st.expander("Click to read documentation"):
-#  st.write("Sherwood CV Generator")
+#  st.write("Sherwood Generator")
 
 Model_Option = st.selectbox("What Large Language Model do I use?", ('sonar-reasoning', 'sonar-pro', 'gemini-1.5-pro-002'))
-Product_Option = st.selectbox("What do you want to generate?", ('CV', 'Developments Paper'))
+Product_Option = st.selectbox("What do you want to generate?", ('CV', 'Developments'))
 
 if Product_Option == "CV":
   input = st.text_input("What is the name of the individual?")
   Customised_Prompt = generate_cv_prompt(input)
-elif Product_Option == "Developments Paper":
+elif Product_Option == "Developments":
   input = st.text_input("What is the name of the country or region?")
-  Customised_Prompt = generate_dvlpmts_prompt(input)
+  Customised_Prompt = generate_developments_prompt(input)
 
 if st.button("Let\'s Go! :rocket:") and input.strip()!="":
   try:
@@ -139,7 +139,7 @@ if st.button("Let\'s Go! :rocket:") and input.strip()!="":
             st.write(f"[{title}]({uri})")
 
       st.snow()
-      bot.send_message(chat_id=recipient_user_id, text="Sherwood CV Gen" + "\n" + Model_Option + "\n" + Name_of_Person)
+      bot.send_message(chat_id=recipient_user_id, text="Sherwood Generator" + "\n" + Model_Option + "\n" + Product_Option + "\n" + input)
       
   except:
     st.error(" Error occurred when running model", icon="🚨")
