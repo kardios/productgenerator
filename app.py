@@ -120,7 +120,7 @@ if st.button("Let\'s Go! :rocket:") and input.strip() != "" and Model_Select != 
           with st.expander(input + " " + Product_Option + " " + Model_Option, expanded = True):
             st.markdown(output_text.replace('\n','\n\n'))
             st_copy_to_clipboard(output_text)
-            combined_output = combined_output + "<ANSWER>\n\n" + output_text + "\n\n</ANSWER>\n\n" 
+            combined_output = combined_output + "<answer_" + Model_Option + ">\n\n" + output_text + "\n\n</answer_" + Model_Option + ">\n\n" 
             st.write("Time to generate: " + str(round(end-start,2)) + " seconds")
             st.write("Sources:")
             for citation in response.citations:
@@ -135,7 +135,7 @@ if st.button("Let\'s Go! :rocket:") and input.strip() != "" and Model_Select != 
         
           with st.expander(input + " " + Product_Option + " " + Model_Option, expanded = True):
             st.markdown(output_text)
-            combined_output = combined_output + "<ANSWER>\n\n" + output_text + "\n\n</ANSWER>\n\n" 
+            combined_output = combined_output + "<answer_" + Model_Option + ">\n\n" + output_text + "\n\n</answer_" + Model_Option + ">\n\n" 
             st_copy_to_clipboard(output_text)
             st.write("Time to generate: " + str(round(end-start,2)) + " seconds")
             st.write("Sources:")
@@ -150,7 +150,16 @@ if st.button("Let\'s Go! :rocket:") and input.strip() != "" and Model_Select != 
         st.snow()
         bot.send_message(chat_id=recipient_user_id, text="Sherwood Generator" + "\n" + Model_Option + "\n" + Product_Option + "\n" + input)
 
+      st_copy_to_clipboard(combined_output)
+      start = time.time()
+      response = client_openai.chat.completions.create(model="o1", messages=[{"role": "user", "content": "Compare the answers: \n\n"}])
+      compare_text = response.choices[0].message.content
+      end = time.time() 
+      with st.expander("Comparison with o1, expanded = True):
+        st.write(compare_text)
+        st.write("Time to generate: " + str(round(end-start,2)) + " seconds")
+        st_copy_to_clipboard(compare_text)
+      st.balloons()
+                     
   except:
     st.error(" Error occurred when running model", icon="🚨")
-
-  st_copy_to_clipboard(combined_output)
