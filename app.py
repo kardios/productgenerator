@@ -110,7 +110,7 @@ if st.button("Let\'s Go! :rocket:") and input.strip()!="":
         output_text = response.choices[0].message.content 
         end = time.time()
 
-        with st.expander(input + " " + Product_Option, expanded = True):
+        with st.expander(input + " " + Product_Option + Model_Option, expanded = True):
           st.markdown(output_text.replace('\n','\n\n'))
           st_copy_to_clipboard(output_text)
           st.write("Time to generate: " + str(round(end-start,2)) + " seconds")
@@ -125,7 +125,7 @@ if st.button("Let\'s Go! :rocket:") and input.strip()!="":
         output_text = response.text
         end = time.time()
         
-        with st.expander(input + " " + Product_Option, expanded = True):
+        with st.expander(input + " " + Product_Option + Model_Option, expanded = True):
           st.markdown(output_text)
           st_copy_to_clipboard(output_text)
           st.write("Time to generate: " + str(round(end-start,2)) + " seconds")
