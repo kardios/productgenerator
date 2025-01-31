@@ -86,9 +86,9 @@ The report should be structured as follows:
   return prompt 
 
 st.set_page_config(page_title="Sherwood Products Generator", page_icon=":face_with_cowboy_hat:")
-st.write("**Sherwood Generator** :face_with_cowboy_hat:")
+st.write("**Sherwood Products Generator** :face_with_cowboy_hat:")
 #with st.expander("Click to read documentation"):
-#  st.write("Sherwood Generator")
+#  st.write("Sherwood Products Generator")
 
 Model_Option = st.selectbox("What Large Language Model do I use?", ('sonar-reasoning', 'sonar-pro', 'gemini-1.5-pro-002'))
 Product_Option = st.selectbox("What do you want to generate?", ('CV', 'Developments'))
