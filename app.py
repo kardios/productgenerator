@@ -155,7 +155,7 @@ if st.button("Let\'s Go! :rocket:") and input.strip() != "" and Model_Select != 
       response = client_openai.chat.completions.create(model="o1", messages=[{"role": "user", "content": "Compare the answers: \n\n"}])
       compare_text = response.choices[0].message.content
       end = time.time() 
-      with st.expander("Comparison with o1, expanded = True):
+      with st.expander("Comparison with o1", expanded = True):
         st.write(compare_text)
         st.write("Time to generate: " + str(round(end-start,2)) + " seconds")
         st_copy_to_clipboard(compare_text)
