@@ -111,7 +111,7 @@ if st.button("Let\'s Go! :rocket:") and input.strip()!="":
         end = time.time()
 
         with st.expander(input + " " + Product_Option, expanded = True):
-          st.write(output_text)
+          st.write(output_text.replace("\n","<br>")
           st_copy_to_clipboard(output_text)
           st.write("Time to generate: " + str(round(end-start,2)) + " seconds")
           st.write("Sources:")
