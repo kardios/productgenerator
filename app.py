@@ -155,7 +155,7 @@ if st.button("Let\'s Go! :rocket:") and input.strip() != "" and Model_Select != 
       st_copy_to_clipboard(combined_output)
       if Product_Option == "CV" and len(Model_Select) > 1:
         start = time.time()
-        response = client_openai.chat.completions.create(model="o1", messages=[{"role": "user", "content": "Compare the answers: \n\n" + combined_output}])
+        response = client_openai.chat.completions.create(model="o1", messages=[{"role": "user", "content": "Compare the answers by highlighting where they agree, where they differ, and whether any claims raise questions about factual accuracy.\n\n" + combined_output}])
         compare_text = response.choices[0].message.content
         end = time.time() 
         with st.expander("Comparison with o1", expanded = True):
