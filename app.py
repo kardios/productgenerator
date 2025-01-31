@@ -94,9 +94,10 @@ with st.expander("Click to read documentation", expanded = True):
   st.write("- **sonar-pro** by Perplexity")
   st.write("- **sonar-reasoning** using DeepSeek R1")
   st.write("- **gemini-1.5-pro-002** by Google")
+  st.write("Comparison of generated CVs using **o1** model")
 
 Model_Select = st.multiselect("What Large Language Model do I use?", ['sonar-pro', 'sonar-reasoning', 'gemini-1.5-pro-002'], ['sonar-pro', 'sonar-reasoning', 'gemini-1.5-pro-002'])
-Product_Option = st.selectbox("What do you want to generate?", ('CV', 'Developments'))
+Product_Option = st.selectbox("What product do you want to generate?", ('CV', 'Developments'))
 
 if Product_Option == "CV":
   input = st.text_input("What is the name of the individual?")
