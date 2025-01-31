@@ -3,6 +3,7 @@ import os
 import time
 import telebot
 import google.generativeai as genai
+from openai import OpenAI
 from google.generativeai.types import HarmCategory, HarmBlockThreshold
 from st_copy_to_clipboard import st_copy_to_clipboard
 
@@ -12,8 +13,8 @@ bot_token = os.environ['BOT_TOKEN']
 bot = telebot.TeleBot(bot_token)
 
 # Retrieve the API keys from the environment variables
-GEMINI_API_KEY = os.environ["GOOGLE_API_KEY"]
-genai.configure(api_key=GEMINI_API_KEY)
+genai.configure(api_key=os.environ["GOOGLE_API_KEY"])
+client_sonar = OpenAI(api_key=os.environ['PERPLEXITY_API_KEY'], base_url="https://api.perplexity.ai")
 
 safety_settings = {
   HarmCategory.HARM_CATEGORY_HARASSMENT: HarmBlockThreshold.BLOCK_NONE,
@@ -24,10 +25,10 @@ safety_settings = {
 
 generation_config = genai.GenerationConfig(
   candidate_count = 1,
-  temperature = 0,
+  temperature = 0.5,
 )
 
-def generate_prompt(individual):
+def generate_cv_prompt(individual):
     prompt = f"""###Instruction###
 Create a comprehensive biography of {individual} detailing the personal background, education, career progression, and other significant appointments or achievements. The biography should be structured as follows:
 
@@ -52,26 +53,83 @@ This format is designed to provide a clear and detailed overview of an individua
 ###Biography###"""
     return prompt
 
-st.set_page_config(page_title="Sherwood CV Generator", page_icon=":face_with_cowboy_hat:")
-st.write("**Sherwood CV Generator** :face_with_cowboy_hat:")
+def generate_dvlpmts_prompt(country):
+  prompt = f"""# CONTEXT #
+You are an expert political and economic analyst.
+
+# OBJECTIVE #
+Write a comprehensive and detailed political report on the current political and economic situation of {country}.
+
+# STYLE #
+Use a formal writing style, adhering to the linguistic norms and conventions of British English and spelling. Back arguments up with supporting facts, statistics, and quotes; avoid overgeneralizations and sweeping statements. Where possible, structure each paragraph in the following manner: a) thesis sentence; b) sentence elaborating thesis; c) supporting details (e.g., data, research, quotes); d) more supporting details (if applicable); e) concluding sentence.
+
+# TONE #
+The tone should be neutral and professional. Avoid normative statements, and passing value judgements.
+
+# AUDIENCE #
+The report is intended for Ministers and senior officials in the Ministry of Foreign Affairs.
+
+# RESPONSE #
+The report should be structured as follows:
+
+1. **DEVELOPMENTS IN {country}>**
+
+2. A succinct one-paragraph summary highlighting the most salient recent political, social or economic developments in {country}.
+
+3. **Political Developments**. Describe in detail the political standing of the government of the day. Mention any cabinet reshuffles, coups, infighting or intrigue in the last 6 months that may affect the government's stability or priorities. Describe the government's policy priorities.
+
+4. Two to Five subsections highlighting other key recent trends and developments in {country} over the past year that have not already been covered under **Political Developments**. Each sub-section should be parked under a header that describes the topic discussed. There is no need to have a dedicated subsection on human rights issues/abuses.
+
+5. **Economic Developments**. Describe in detail the latest GDP growth figure of {country}, and compare it to the previous year. Cite reputable sources such as the World Bank, UN, IMF. Note key macroeconomic trends and projections. Note the main economic opportunities and challenges facing {country}.
+
+6. **International Relations**. Describe in detail the foreign policy orientation of {country}. Summarise the foreign relations of {country} with key international partners, with particular attention to ASEAN, its neighbouring countries, and Singapore."""
+  return prompt 
+
+st.set_page_config(page_title="Sherwood Products Generator", page_icon=":face_with_cowboy_hat:")
+st.write("**Sherwood Products Generator** :face_with_cowboy_hat:")
 #with st.expander("Click to read documentation"):
 #  st.write("Sherwood CV Generator")
 
-Model_Option = st.selectbox("What Large Language Model do I use?", ('Gemini 1.5 Pro'))
-Name_of_Person = st.text_input("Enter the name of the person whose CV you would like to generate:")
-Customised_Prompt = generate_prompt(Name_of_Person)
+Model_Option = st.selectbox("What Large Language Model do I use?", ('sonar-reasoning', 'sonar-pro', 'gemini-1.5-pro-002'))
+Product_Option = st.selectbox("What do you want to generate?", ('CV', 'Developments Paper'))
 
-if st.button("Let\'s Go! :rocket:") and Name_of_Person.strip()!="":
+if Product_Option == "CV":
+  input = st.text_input("What is the name of the individual?")
+  Customised_Prompt = generate_cv_prompt(input)
+elif Product_Option == "Developments Paper":
+  input = st.text_input("What is the name of the country or region?")
+  Customised_Prompt = generate_dvlpmts_prompt(input)
+
+if st.button("Let\'s Go! :rocket:") and input.strip()!="":
   try:
     with st.spinner("Running AI Model....."):
-    
-      start = time.time()
-      if Model_Option == "Gemini 1.5 Pro":
-        gemini = genai.GenerativeModel("gemini-1.5-pro-002")
+
+      if Model_Option == "sonar-reasoning" or Model_Option == "sonar-pro":
+        start = time.time()
+        response = client_sonar.chat.completions.create(model=Model_Option, messages=[{ "role": "user", "content": Customised_Prompt }], temperature = 0.5)
+        output_text = response.choices[0].message.content 
+        end = time.time()
+
+        with st.expander(input + " " + Product_Option, expanded = True):
+          st.write(output_text)
+          st_copy_to_clipboard(output_text)
+          st.write("Time to generate: " + str(round(end-start,2)) + " seconds")
+          st.write("Sources:")
+          for citation in response.citations:
+            st.write(citation)
+      
+      elif Model_Option == "gemini-1.5-pro-002":
+        start = time.time()
+        gemini = genai.GenerativeModel(Model_Option)
         response = gemini.generate_content(Customised_Prompt, safety_settings = safety_settings, generation_config = generation_config, tools = "google_search_retrieval")
         output_text = response.text
-        with st.expander("Sources for " + Name_of_Person):
-          st.write("Sources for " + Name_of_Person)
+        end = time.time()
+        
+        with st.expander(input + " " + Product_Option, expanded = True):
+          st.write(output_text)
+          st_copy_to_clipboard(output_text)
+          st.write("Time to generate: " + str(round(end-start,2)) + " seconds")
+          st.write("Sources:")
           candidates = response.candidates
           grounding_metadata = candidates[0].grounding_metadata
           grounding_chunks = grounding_metadata.grounding_chunks
@@ -79,21 +137,6 @@ if st.button("Let\'s Go! :rocket:") and Name_of_Person.strip()!="":
             uri = chunk.web.uri
             title = chunk.web.title
             st.write(f"[{title}]({uri})")
-        
-        #st.write("Sources for " + Name_of_Person)
-        #candidates = response.candidates
-        #grounding_metadata = candidates[0].grounding_metadata
-        #grounding_chunks = grounding_metadata.grounding_chunks
-        #for chunk in grounding_chunks:
-        #  uri = chunk.web.uri
-        #  title = chunk.web.title
-        #  st.write(f"[{title}]({uri})")
-      end = time.time()
-
-      with st.expander("CV of " + Name_of_Person):
-        st.write(output_text)
-        st.write("Time to generate: " + str(round(end-start,2)) + " seconds")
-        st_copy_to_clipboard(output_text)
 
       st.snow()
       bot.send_message(chat_id=recipient_user_id, text="Sherwood CV Gen" + "\n" + Model_Option + "\n" + Name_of_Person)
