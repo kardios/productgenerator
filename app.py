@@ -159,7 +159,7 @@ if st.button("Let\'s Go! :rocket:") and input.strip() != "" and Model_Select != 
         compare_text = response.choices[0].message.content
         end = time.time() 
         with st.expander("Comparison with o1", expanded = True):
-          st.write(compare_text.replace('\n','\n\n')
+          st.write(compare_text.replace('\n','\n\n'))
           st.write("Time to generate: " + str(round(end-start,2)) + " seconds")
           st_copy_to_clipboard(compare_text)
         st.balloons()
