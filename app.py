@@ -87,7 +87,7 @@ The report should be structured as follows:
 
 st.set_page_config(page_title="Sherwood Generator", page_icon=":face_with_cowboy_hat:")
 st.write("**Sherwood Generator** :face_with_cowboy_hat:")
-with st.expander("Click to read documentation"):
+with st.expander("Click to read documentation", expanded = True):
   st.write("Productivity tool for generating **CV** and **Developments** papers")
   st.write("Choose from the following Large Language Models:")
   st.write("- **sonar-pro** by Perplexity")
@@ -116,7 +116,7 @@ if st.button("Let\'s Go! :rocket:") and input.strip() != "" and Model_Select != 
           output_text = response.choices[0].message.content 
           end = time.time()
 
-          with st.expander(input + " " + Product_Option + Model_Option, expanded = True):
+          with st.expander(input + " " + Product_Option + " " + Model_Option, expanded = True):
             st.markdown(output_text.replace('\n','\n\n'))
             st_copy_to_clipboard(output_text)
             st.write("Time to generate: " + str(round(end-start,2)) + " seconds")
@@ -131,7 +131,7 @@ if st.button("Let\'s Go! :rocket:") and input.strip() != "" and Model_Select != 
           output_text = response.text
           end = time.time()
         
-          with st.expander(input + " " + Product_Option + Model_Option, expanded = True):
+          with st.expander(input + " " + Product_Option + " " + Model_Option, expanded = True):
             st.markdown(output_text)
             st_copy_to_clipboard(output_text)
             st.write("Time to generate: " + str(round(end-start,2)) + " seconds")
