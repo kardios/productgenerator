@@ -88,11 +88,11 @@ The report should be structured as follows:
 st.set_page_config(page_title="Sherwood Generator", page_icon=":face_with_cowboy_hat:")
 st.write("**Sherwood Generator** :face_with_cowboy_hat:")
 with st.expander("Click to read documentation"):
-  st.write("Generates **CV** and **Developments** papers")
+  st.write("Productivity tool for generating **CV** and **Developments** papers")
   st.write("Choose from the following Large Language Models:")
-  st.write("**sonar-pro** by Perplexity")
-  st.write("**sonar-reasoning** using DeepSeek R1")
-  st.write("**gemini-1.5-pro-002** by Google")
+  st.write("- **sonar-pro** by Perplexity")
+  st.write("- **sonar-reasoning** using DeepSeek R1")
+  st.write("- **gemini-1.5-pro-002** by Google")
 
 Model_Select = st.multiselect("What Large Language Model do I use?", ['sonar-pro', 'sonar-reasoning', 'gemini-1.5-pro-002'], ['sonar-pro', 'sonar-reasoning', 'gemini-1.5-pro-002'])
 Product_Option = st.selectbox("What do you want to generate?", ('CV', 'Developments'))
