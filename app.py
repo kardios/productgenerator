@@ -152,15 +152,16 @@ if st.button("Let\'s Go! :rocket:") and input.strip() != "" and Model_Select != 
         bot.send_message(chat_id=recipient_user_id, text="Sherwood Generator" + "\n" + Model_Option + "\n" + Product_Option + "\n" + input)
 
       st_copy_to_clipboard(combined_output)
-      start = time.time()
-      response = client_openai.chat.completions.create(model="o1", messages=[{"role": "user", "content": "Compare the answers: \n\n" + combined_output}])
-      compare_text = response.choices[0].message.content
-      end = time.time() 
-      with st.expander("Comparison with o1", expanded = True):
-        st.write(compare_text)
-        st.write("Time to generate: " + str(round(end-start,2)) + " seconds")
-        st_copy_to_clipboard(compare_text)
-      st.balloons()
+      if Product_Option == "CV" and len(Model_Select) > 1:
+        start = time.time()
+        response = client_openai.chat.completions.create(model="o1", messages=[{"role": "user", "content": "Compare the answers: \n\n" + combined_output}])
+        compare_text = response.choices[0].message.content
+        end = time.time() 
+        with st.expander("Comparison with o1", expanded = True):
+          st.write(compare_text)
+          st.write("Time to generate: " + str(round(end-start,2)) + " seconds")
+          st_copy_to_clipboard(compare_text)
+        st.balloons()
                      
   except:
     st.error(" Error occurred when running model", icon="🚨")
