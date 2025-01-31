@@ -15,6 +15,7 @@ bot = telebot.TeleBot(bot_token)
 # Retrieve the API keys from the environment variables
 genai.configure(api_key=os.environ["GOOGLE_API_KEY"])
 client_sonar = OpenAI(api_key=os.environ['PERPLEXITY_API_KEY'], base_url="https://api.perplexity.ai")
+client_openai = OpenAI(api_key=os.environ['OPENAI_API_KEY'])
 
 safety_settings = {
   HarmCategory.HARM_CATEGORY_HARASSMENT: HarmBlockThreshold.BLOCK_NONE,
