@@ -85,12 +85,14 @@ The report should be structured as follows:
 6. **International Relations**. Describe in detail the foreign policy orientation of {country}. Summarise the foreign relations of {country} with key international partners, with particular attention to ASEAN, its neighbouring countries, and Singapore."""
   return prompt 
 
-st.set_page_config(page_title="Sherwood Products Generator", page_icon=":face_with_cowboy_hat:")
-st.write("**Sherwood Products Generator** :face_with_cowboy_hat:")
-#with st.expander("Click to read documentation"):
-#  st.write("Sherwood Products Generator")
+st.set_page_config(page_title="Sherwood Generator", page_icon=":face_with_cowboy_hat:")
+st.write("**Sherwood Generator** :face_with_cowboy_hat:")
+with st.expander("Click to read documentation"):
+  st.write("Generates **CV** and **Developments** papers")
+  st.write("Choose from the following Large Language Models:")
+  st.write("**sonar-reasoning** - DeepSeek R1 offered by Perplexity
 
-Model_Option = st.selectbox("What Large Language Model do I use?", ('sonar-reasoning', 'sonar-pro', 'gemini-1.5-pro-002'))
+Model_Select = st.multiselect("What Large Language Model do I use?", ['sonar-pro', 'sonar-reasoning', 'gemini-1.5-pro-002'], ['sonar-pro', 'sonar-reasoning', 'gemini-1.5-pro-002'])
 Product_Option = st.selectbox("What do you want to generate?", ('CV', 'Developments'))
 
 if Product_Option == "CV":
@@ -100,46 +102,48 @@ elif Product_Option == "Developments":
   input = st.text_input("What is the name of the country or region?")
   Customised_Prompt = generate_developments_prompt(input)
 
-if st.button("Let\'s Go! :rocket:") and input.strip()!="":
+if st.button("Let\'s Go! :rocket:") and input.strip() != "" and Model_Select != []:
   try:
     with st.spinner("Running AI Model....."):
 
-      if Model_Option == "sonar-reasoning" or Model_Option == "sonar-pro":
-        start = time.time()
-        response = client_sonar.chat.completions.create(model=Model_Option, messages=[{ "role": "user", "content": Customised_Prompt }], temperature = 0.5)
-        output_text = response.choices[0].message.content 
-        end = time.time()
-
-        with st.expander(input + " " + Product_Option + Model_Option, expanded = True):
-          st.markdown(output_text.replace('\n','\n\n'))
-          st_copy_to_clipboard(output_text)
-          st.write("Time to generate: " + str(round(end-start,2)) + " seconds")
-          st.write("Sources:")
-          for citation in response.citations:
-            st.write(citation)
+      for Model_Option in Model_Select:
       
-      elif Model_Option == "gemini-1.5-pro-002":
-        start = time.time()
-        gemini = genai.GenerativeModel(Model_Option)
-        response = gemini.generate_content(Customised_Prompt, safety_settings = safety_settings, generation_config = generation_config, tools = "google_search_retrieval")
-        output_text = response.text
-        end = time.time()
+        if Model_Option == "sonar-reasoning" or Model_Option == "sonar-pro":
+          start = time.time()
+          response = client_sonar.chat.completions.create(model=Model_Option, messages=[{ "role": "user", "content": Customised_Prompt }], temperature = 0.5)
+          output_text = response.choices[0].message.content 
+          end = time.time()
+
+          with st.expander(input + " " + Product_Option + Model_Option, expanded = True):
+            st.markdown(output_text.replace('\n','\n\n'))
+            st_copy_to_clipboard(output_text)
+            st.write("Time to generate: " + str(round(end-start,2)) + " seconds")
+            st.write("Sources:")
+            for citation in response.citations:
+              st.write(citation)
+      
+        elif Model_Option == "gemini-1.5-pro-002":
+          start = time.time()
+          gemini = genai.GenerativeModel(Model_Option)
+          response = gemini.generate_content(Customised_Prompt, safety_settings = safety_settings, generation_config = generation_config, tools = "google_search_retrieval")
+          output_text = response.text
+          end = time.time()
         
-        with st.expander(input + " " + Product_Option + Model_Option, expanded = True):
-          st.markdown(output_text)
-          st_copy_to_clipboard(output_text)
-          st.write("Time to generate: " + str(round(end-start,2)) + " seconds")
-          st.write("Sources:")
-          candidates = response.candidates
-          grounding_metadata = candidates[0].grounding_metadata
-          grounding_chunks = grounding_metadata.grounding_chunks
-          for chunk in grounding_chunks:
-            uri = chunk.web.uri
-            title = chunk.web.title
-            st.write(f"[{title}]({uri})")
+          with st.expander(input + " " + Product_Option + Model_Option, expanded = True):
+            st.markdown(output_text)
+            st_copy_to_clipboard(output_text)
+            st.write("Time to generate: " + str(round(end-start,2)) + " seconds")
+            st.write("Sources:")
+            candidates = response.candidates
+            grounding_metadata = candidates[0].grounding_metadata
+            grounding_chunks = grounding_metadata.grounding_chunks
+            for chunk in grounding_chunks:
+              uri = chunk.web.uri
+              title = chunk.web.title
+              st.write(f"[{title}]({uri})")
+          
+        st.snow()
+        bot.send_message(chat_id=recipient_user_id, text="Sherwood Generator" + "\n" + Model_Option + "\n" + Product_Option + "\n" + input)
 
-      st.snow()
-      bot.send_message(chat_id=recipient_user_id, text="Sherwood Generator" + "\n" + Model_Option + "\n" + Product_Option + "\n" + input)
-      
   except:
     st.error(" Error occurred when running model", icon="🚨")
