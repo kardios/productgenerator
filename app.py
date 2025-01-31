@@ -120,7 +120,7 @@ if st.button("Let\'s Go! :rocket:") and input.strip() != "" and Model_Select != 
           with st.expander(input + " " + Product_Option + " " + Model_Option, expanded = True):
             st.markdown(output_text.replace('\n','\n\n'))
             st_copy_to_clipboard(output_text)
-            combined_output = combined_output + output_text 
+            combined_output = combined_output + "<ANSWER>\n\n" + output_text + "\n\n</ANSWER>\n\n" 
             st.write("Time to generate: " + str(round(end-start,2)) + " seconds")
             st.write("Sources:")
             for citation in response.citations:
@@ -135,7 +135,7 @@ if st.button("Let\'s Go! :rocket:") and input.strip() != "" and Model_Select != 
         
           with st.expander(input + " " + Product_Option + " " + Model_Option, expanded = True):
             st.markdown(output_text)
-            combined_output = combined_output + output_text 
+            combined_output = combined_output + "<ANSWER>\n\n" + output_text + "\n\n</ANSWER>\n\n" 
             st_copy_to_clipboard(output_text)
             st.write("Time to generate: " + str(round(end-start,2)) + " seconds")
             st.write("Sources:")
