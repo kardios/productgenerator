@@ -156,10 +156,14 @@ if st.button("Let\'s Go! :rocket:") and input.strip() != "" and Model_Select != 
       st_copy_to_clipboard(combined_output)
       if len(Model_Select) > 1:
         start = time.time()
+        tags = "Compare the answers contained in the following tags: "
+        for item in Model_Select:
+          tags = tags + "<answer_" + item + "> "
         if Product_Option == "CV":
-          o1_prompt = "Compare the answers by highlighting where they agree, where they differ, and whether any claims raise questions about factual accuracy.\n\n"  
+          o1_prompt = tags + "by highlighting where they agree, where they differ, and whether any claims raise questions about factual accuracy.\n\n"  
         elif Product_Option == "Developments":
-          o1_prompt = "Compare the answers by highlighting where they agree, where they differ, and whether any claims raise questions about factual accuracy. Then synthesize a coherent answer that follows the same multi-paragraph format.\n\n"  
+          o1_prompt = tags + "by highlighting where they agree, where they differ, and whether any claims raise questions about factual accuracy. Then synthesize a coherent answer that follows the same multi-paragraph format.\n\n"  
+        st.write(o1_prompt)
         response = client_openai.chat.completions.create(model="o1", messages=[{"role": "user", "content": o1_prompt + combined_output}])
         compare_text = response.choices[0].message.content
         end = time.time() 
