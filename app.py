@@ -95,6 +95,7 @@ with st.expander("Click to read documentation", expanded = True):
   st.write("- **sonar-reasoning** using DeepSeek R1")
   st.write("- **gemini-1.5-pro-002** by Google")
   st.write("Compare generated CVs using OpenAI\'s **o1** model to spot differences")
+  st.write("Compare and synthesise Developments Papers using **o1** model")
 
 Model_Select = st.multiselect("What Large Language Model do I use?", ['sonar-pro', 'sonar-reasoning', 'gemini-1.5-pro-002'], ['sonar-pro', 'sonar-reasoning', 'gemini-1.5-pro-002'])
 Product_Option = st.selectbox("What product do you want to generate?", ('CV', 'Developments'))
@@ -162,7 +163,7 @@ if st.button("Let\'s Go! :rocket:") and input.strip() != "" and Model_Select != 
         response = client_openai.chat.completions.create(model="o1", messages=[{"role": "user", "content": o1_prompt + combined_output}])
         compare_text = response.choices[0].message.content
         end = time.time() 
-        with st.expander("input + " " + Product_Option + " o1", expanded = True):
+        with st.expander("input " + Product_Option + " o1", expanded = True):
           st.write(compare_text.replace('\n','\n\n'))
           st.write("Time to generate: " + str(round(end-start,2)) + " seconds")
           st_copy_to_clipboard(compare_text)
