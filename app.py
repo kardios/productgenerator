@@ -94,8 +94,7 @@ with st.expander("Click to read documentation", expanded = True):
   st.write("- **sonar-pro** by Perplexity")
   st.write("- **sonar-reasoning** using DeepSeek R1")
   st.write("- **gemini-1.5-pro-002** by Google")
-  st.write("Compare generated CVs using OpenAI\'s **o1** model to spot differences")
-  st.write("Compare and synthesise Developments Papers using **o1** model")
+  st.write("Compare generated answers using OpenAI\'s **o1** model to highlight where they agree, where they differ, and whether there are any claims that raise questions about factual accuracy.")
 
 Model_Select = st.multiselect("What Large Language Model do I use?", ['sonar-pro', 'sonar-reasoning', 'gemini-1.5-pro-002'], ['sonar-pro', 'sonar-reasoning', 'gemini-1.5-pro-002'])
 Product_Option = st.selectbox("What product do you want to generate?", ('CV', 'Developments'))
@@ -158,12 +157,8 @@ if st.button("Let\'s Go! :rocket:") and input.strip() != "" and Model_Select != 
         start = time.time()
         tags = "Compare the answers contained in the following tags: "
         for item in Model_Select:
-          tags = tags + "<answer_" + item + "> "
-        if Product_Option == "CV":
-          o1_prompt = tags + "by highlighting where they agree, where they differ, and whether any claims raise questions about factual accuracy.\n\n"  
-        elif Product_Option == "Developments":
-          o1_prompt = tags + "by highlighting where they agree, where they differ, and whether any claims raise questions about factual accuracy. Then synthesize a coherent answer that follows the same multi-paragraph format.\n\n"  
-        st.write(o1_prompt)
+          tags = tags + "<answer_" + item + ">, "
+        o1_prompt = tags + "by highlighting where they agree, where they differ, and whether any claims raise questions about factual accuracy.\n\n"  
         response = client_openai.chat.completions.create(model="o1", messages=[{"role": "user", "content": o1_prompt + combined_output}])
         compare_text = response.choices[0].message.content
         end = time.time() 
