@@ -153,12 +153,16 @@ if st.button("Let\'s Go! :rocket:") and input.strip() != "" and Model_Select != 
         bot.send_message(chat_id=recipient_user_id, text="Sherwood Generator" + "\n" + Model_Option + "\n" + Product_Option + "\n" + input)
 
       st_copy_to_clipboard(combined_output)
-      if Product_Option == "CV" and len(Model_Select) > 1:
+      if len(Model_Select) > 1:
         start = time.time()
-        response = client_openai.chat.completions.create(model="o1", messages=[{"role": "user", "content": "Compare the answers by highlighting where they agree, where they differ, and whether any claims raise questions about factual accuracy.\n\n" + combined_output}])
+        if Product_Option == "CV":
+          o1_prompt = "Compare the answers by highlighting where they agree, where they differ, and whether any claims raise questions about factual accuracy.\n\n"  
+        elif Product_Option = "Developments":
+          o1_prompt = "Compare the answers by highlighting where they agree, where they differ, and whether any claims raise questions about factual accuracy. Then synthesize a coherent answer that follows the same multi-paragraph format.\n\n"  
+        response = client_openai.chat.completions.create(model="o1", messages=[{"role": "user", "content": o1_prompt + combined_output}])
         compare_text = response.choices[0].message.content
         end = time.time() 
-        with st.expander("Comparison with o1", expanded = True):
+        with st.expander("input + " " + Product_Option + " o1", expanded = True):
           st.write(compare_text.replace('\n','\n\n'))
           st.write("Time to generate: " + str(round(end-start,2)) + " seconds")
           st_copy_to_clipboard(compare_text)
