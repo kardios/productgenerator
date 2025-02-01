@@ -158,7 +158,7 @@ if st.button("Let\'s Go! :rocket:") and input.strip() != "" and Model_Select != 
         start = time.time()
         if Product_Option == "CV":
           o1_prompt = "Compare the answers by highlighting where they agree, where they differ, and whether any claims raise questions about factual accuracy.\n\n"  
-        elif Product_Option = "Developments":
+        elif Product_Option == "Developments":
           o1_prompt = "Compare the answers by highlighting where they agree, where they differ, and whether any claims raise questions about factual accuracy. Then synthesize a coherent answer that follows the same multi-paragraph format.\n\n"  
         response = client_openai.chat.completions.create(model="o1", messages=[{"role": "user", "content": o1_prompt + combined_output}])
         compare_text = response.choices[0].message.content
