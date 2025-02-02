@@ -5,6 +5,8 @@ import telebot
 import google.generativeai as gen_ai
 from openai import OpenAI
 from google.generativeai.types import HarmCategory, HarmBlockThreshold
+from google import genai
+from google.genai import types
 from st_copy_to_clipboard import st_copy_to_clipboard
 
 # Set up Telegram Bot
@@ -16,6 +18,11 @@ bot = telebot.TeleBot(bot_token)
 gen_ai.configure(api_key=os.environ["GOOGLE_API_KEY"])
 client_sonar = OpenAI(api_key=os.environ['PERPLEXITY_API_KEY'], base_url="https://api.perplexity.ai")
 client_openai = OpenAI(api_key=os.environ['OPENAI_API_KEY'])
+client_thinker = genai.Client(
+    api_key=os.environ["GOOGLE_API_KEY"],
+    # Use `v1alpha` so you can see the `thought` flag.
+    http_options={'api_version':'v1alpha'},
+    )
 
 safety_settings = {
   HarmCategory.HARM_CATEGORY_HARASSMENT: HarmBlockThreshold.BLOCK_NONE,
@@ -154,7 +161,6 @@ if st.button("Let\'s Go! :rocket:") and input.strip() != "" and Model_Select != 
 
       st_copy_to_clipboard(combined_output)
       if len(Model_Select) > 1:
-        start = time.time()
         o1_prompt = "Your task is to do a point-by-point comparison of the answers below, highlighting (A) where they agree; (B) where they differ; (C) whether any claims raise questions about factual accuracy; (D) any other relevant perspectives not covered in the answers.\n\n" 
         o1_prompt = o1_prompt + "The answers are contained in the tags below.\n\n"
         tags = ""
@@ -173,6 +179,8 @@ if st.button("Let\'s Go! :rocket:") and input.strip() != "" and Model_Select != 
         #  tags = tags + "<answer_" + item + ">, "
         #o1_prompt = tags + "highlighting (A) where they agree; (B) where they differ; (C) whether any claims raise questions about factual accuracy; (D) whether there may be other relevant perspectives not covered in the answers.\n\n"  
         #st.write(o1_prompt)
+        
+        start = time.time()
         response = client_openai.chat.completions.create(model="o1", messages=[{"role": "user", "content": o1_prompt + combined_output}])
         compare_text = response.choices[0].message.content
         end = time.time() 
@@ -181,6 +189,16 @@ if st.button("Let\'s Go! :rocket:") and input.strip() != "" and Model_Select != 
           st.write("Time to generate: " + str(round(end-start,2)) + " seconds")
           st_copy_to_clipboard(compare_text)
         st.balloons()
-                     
+
+        start = time.time()
+        response = client_thinker.models.generate_content(model="gemini-2.0-flash-thinking-exp-01-21", config={'thinking_config': {'include_thoughts': True}}, contents = o1_prompt + combined_output)
+        compare_text = response.text
+        end = time.time() 
+        with st.expander("input " + Product_Option + " ", expanded = True):
+          st.write(compare_text.replace('\n','\n\n'))
+          st.write("Time to generate: " + str(round(end-start,2)) + " seconds")
+          st_copy_to_clipboard(compare_text)
+        st.balloons()
+  
   except:
     st.error(" Error occurred when running model", icon="🚨")
