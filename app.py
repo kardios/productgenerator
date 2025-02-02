@@ -109,7 +109,7 @@ with st.expander("Click to read documentation", expanded = True):
   
 Intern_Select = st.multiselect("Which **Interns** would you like to deploy?", ['Sonar', 'Deepseek', 'Gemini'], ['Sonar', 'Deepseek', 'Gemini'])
 Compare_Select = st.multiselect("Which **Reviewers** would you like to deploy?", ['Oscar', 'Graham'], ['Oscar', 'Graham']) 
-Product_Option = st.selectbox("What **Product** would like them to work on?", ('CV', 'Developments'))
+Product_Option = st.selectbox("What **Product** would like them to work on?", ('CV', 'Developments', 'Custom'))
 
 if Product_Option == "CV":
   input = st.text_input("What is the name of the individual?")
