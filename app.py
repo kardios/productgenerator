@@ -123,6 +123,15 @@ elif Product_Option == "Custom":
 
 if st.button("Let\'s Go! :rocket:") and input.strip() != "" and Customised_Prompt.strip() != "" and Intern_Select != []:
   st.divider()
+
+  if input == "Custom":
+    response_phrase = client_openai.chat.completions.create(model="gpt-4o-mini", messages=[{"role": "system", "content": "Your task is to summarise the user input into a phrase."}, {"role": "user", "content": Customised_Prompt}], temperature=0.5)
+    input = response_phrase.choices[0].message.content
+    response_prompt = client_openai.chat.completions.create(model="gpt-4o-mini", messages=[{"role": "system", "content": "Your task is to improve the user input into a better prompt."}, {"role": "user", "content": Customised_Prompt}], temperature=0.5)
+    Customised_Prompt = response_prompt.choices[0].message.content
+    st.write(input)
+    st.write(Customised_Prompt)
+    
   try:
     with st.spinner("Running AI Model....."):
 
