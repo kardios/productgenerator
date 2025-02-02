@@ -157,7 +157,6 @@ if st.button("Let\'s Go! :rocket:") and input.strip() != "" and Intern_Select !=
           response = gemini.generate_content(Customised_Prompt, safety_settings = safety_settings, generation_config = generation_config, tools = "google_search_retrieval")
           output_text = response.text
           end = time.time()
-        
           with st.expander("**Gemini**, " + Product_Option + ", " + input, expanded = True):
             st.markdown(output_text)
             combined_output = combined_output + "<answer_" + Intern + ">\n\n" + output_text + "\n\n</answer_" + Intern + ">\n\n" 
