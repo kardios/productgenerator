@@ -134,7 +134,7 @@ if st.button("Let\'s Go! :rocket:") and input.strip() != "" and Model_Select != 
           elif Model_Option == "sonar-pro":
               temp_str = "**Sonar**, "
               
-          with st.expander(temp_str, Product_Option + ", " + input, expanded = True):
+          with st.expander(temp_str + Product_Option + ", " + input, expanded = True):
             st.markdown(output_text.replace('\n','\n\n'))
             st_copy_to_clipboard(output_text)
             combined_output = combined_output + "<answer_" + Model_Option + ">\n\n" + output_text + "\n\n</answer_" + Model_Option + ">\n\n" 
@@ -168,6 +168,7 @@ if st.button("Let\'s Go! :rocket:") and input.strip() != "" and Model_Select != 
         bot.send_message(chat_id=recipient_user_id, text="Sherwood Generator" + "\n" + Model_Option + "\n" + Product_Option + "\n" + input)
 
       st_copy_to_clipboard(combined_output)
+        
       if len(Model_Select) > 1 and len(Compare_Select) > 0:
           
         o1_prompt = "Your task is to do a point-by-point comparison of the answers below, highlighting (A) where they agree; (B) where they differ; (C) whether any claims raise questions about factual accuracy; (D) any other relevant perspectives not covered in the answers.\n\n" 
