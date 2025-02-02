@@ -96,17 +96,17 @@ The report should be structured as follows:
 st.set_page_config(page_title="Sherwood Generator", page_icon=":face_with_cowboy_hat:")
 st.write("**Sherwood Generator** :face_with_cowboy_hat:")
 with st.expander("Click to read documentation", expanded = True):
-  st.write("Productivity tool for generating **CV** and **Developments** papers")
-  st.write("Deploy up to three internet-enabled LLMs to generate the first cut:")
+  st.write("Experimental research tool to support drafting of **CV** and **Developments** papers using Large Language Models (LLMs)")
+  st.write("Deploy up to three internet-enabled LLM **Interns** to generate the first cut from internet sources:")
   st.write("- **Sonar** (sonar-pro by Perplexity)")
   st.write("- **Deepseek** (sonar-reasoning by Perplexity)")
   st.write("- **Gemini** (gemini-1.5-pro-002 by Google)")
-  st.write("Deploy up to two reasoning LLMs to compare the generated answers:")
+  st.write("Deploy up to two reasoning-enabled LLM **Supervisors** to compare the answers drafted by the Interns:")
   st.write("- **Oscar** (o1 by OpenAI)")
   st.write("- **Graham** (gemini-2.0-flash-thinking-exp-01-21 by Google)")
     
-Model_Select = st.multiselect("What internet-enabled LLM do I use?", ['sonar-pro', 'sonar-reasoning', 'gemini-1.5-pro-002'], ['sonar-pro', 'sonar-reasoning', 'gemini-1.5-pro-002'])
-Compare_Select = st.multiselect("What reasoning LLMs do I use?", ['Oscar', 'Graham'], ['Oscar', 'Graham']) 
+Model_Select = st.multiselect("Which **Interns** do I use?", ['sonar-pro', 'sonar-reasoning', 'gemini-1.5-pro-002'], ['sonar-pro', 'sonar-reasoning', 'gemini-1.5-pro-002'])
+Compare_Select = st.multiselect("Which **Supervisors** do I use?", ['Oscar', 'Graham'], ['Oscar', 'Graham']) 
 Product_Option = st.selectbox("What product do you want to generate?", ('CV', 'Developments'))
 
 if Product_Option == "CV":
