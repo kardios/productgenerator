@@ -119,7 +119,7 @@ elif Product_Option == "Developments":
   Customised_Prompt = generate_developments_prompt(input)
 elif Product_Option == "Custom":
   input = "Custom"
-  Customised_Prompt = st.text_input("Please provide the details of the product for the team.")
+  Customised_Prompt = st.text_area("Please provide the details of the product for the team.")
 
 if st.button("Let\'s Go! :rocket:") and input.strip() != "" and Customised_Prompt.strip() != "" and Intern_Select != []:
   st.divider()
