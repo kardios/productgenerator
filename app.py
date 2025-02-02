@@ -158,7 +158,8 @@ if st.button("Let\'s Go! :rocket:") and input.strip() != "" and Model_Select != 
         tags = "Compare the answers contained in the following tags: "
         for item in Model_Select:
           tags = tags + "<answer_" + item + ">, "
-        o1_prompt = tags + "by highlighting where they agree, where they differ, and whether any claims raise questions about factual accuracy.\n\n"  
+        o1_prompt = tags + "highlighting (A) where they agree; (B) where they differ; (C) whether any claims raise questions about factual accuracy; (D) whether there may be other relevant perspectives not covered in the answers.\n\n"  
+        st.write(o1_prompt)
         response = client_openai.chat.completions.create(model="o1", messages=[{"role": "user", "content": o1_prompt + combined_output}])
         compare_text = response.choices[0].message.content
         end = time.time() 
