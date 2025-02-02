@@ -96,7 +96,8 @@ with st.expander("Click to read documentation", expanded = True):
   st.write("- **gemini-1.5-pro-002** by Google")
   st.write("Compare generated answers using OpenAI\'s **o1** model to highlight where they agree, where they differ, and whether there are any claims that raise questions about factual accuracy.")
 
-Model_Select = st.multiselect("What Large Language Model do I use?", ['sonar-pro', 'sonar-reasoning', 'gemini-1.5-pro-002'], ['sonar-pro', 'sonar-reasoning', 'gemini-1.5-pro-002'])
+Model_Select = st.multiselect("What Large Language Model do I use?", ['sonar-pro', 'sonar-reasoning', 'gemini-2.0-flash-exp'], ['sonar-pro', 'sonar-reasoning', 'gemini-2.0-flash-exp'])
+#Model_Select = st.multiselect("What Large Language Model do I use?", ['sonar-pro', 'sonar-reasoning', 'gemini-1.5-pro-002'], ['sonar-pro', 'sonar-reasoning', 'gemini-1.5-pro-002'])
 Product_Option = st.selectbox("What product do you want to generate?", ('CV', 'Developments'))
 
 if Product_Option == "CV":
