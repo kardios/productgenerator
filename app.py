@@ -2,7 +2,7 @@ import streamlit as st
 import os
 import time
 import telebot
-import google.generativeai as genai
+import google.generativeai as gen_ai
 from openai import OpenAI
 from google.generativeai.types import HarmCategory, HarmBlockThreshold
 from st_copy_to_clipboard import st_copy_to_clipboard
@@ -13,7 +13,7 @@ bot_token = os.environ['BOT_TOKEN']
 bot = telebot.TeleBot(bot_token)
 
 # Retrieve the API keys from the environment variables
-genai.configure(api_key=os.environ["GOOGLE_API_KEY"])
+gen_ai.configure(api_key=os.environ["GOOGLE_API_KEY"])
 client_sonar = OpenAI(api_key=os.environ['PERPLEXITY_API_KEY'], base_url="https://api.perplexity.ai")
 client_openai = OpenAI(api_key=os.environ['OPENAI_API_KEY'])
 
@@ -24,7 +24,7 @@ safety_settings = {
   HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT: HarmBlockThreshold.BLOCK_NONE,
 }
 
-generation_config = genai.GenerationConfig(
+generation_config = gen_ai.GenerationConfig(
   candidate_count = 1,
   temperature = 0.5,
 )
@@ -130,7 +130,7 @@ if st.button("Let\'s Go! :rocket:") and input.strip() != "" and Model_Select != 
       
         elif Model_Option == "gemini-1.5-pro-002":
           start = time.time()
-          gemini = genai.GenerativeModel(Model_Option)
+          gemini = gen_ai.GenerativeModel(Model_Option)
           response = gemini.generate_content(Customised_Prompt, safety_settings = safety_settings, generation_config = generation_config, tools = "google_search_retrieval")
           output_text = response.text
           end = time.time()
