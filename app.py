@@ -156,23 +156,23 @@ if st.button("Let\'s Go! :rocket:") and input.strip() != "" and Model_Select != 
       if len(Model_Select) > 1:
         start = time.time()
         o1_prompt = "Your task is to do a point-by-point comparison of the answers below, highlighting (A) where they agree; (B) where they differ; (C) whether any claims raise questions about factual accuracy; (D) any other relevant perspectives not covered in the answers.\n\n" 
-        o1_prompt = o1_prompt + "The answers are contained in the tags below.\n"
+        o1_prompt = o1_prompt + "The answers are contained in the tags below.\n\n"
         tags = ""
         for item in Model_Select:
           tags = tags + "<answer_" + item + "> "
           if item == "sonar-pro":
-            tags = tags + "(Refer to this answer as **Sonar** in your output)\n"
+            tags = tags + "(Refer to this answer as **Sonar** in your output)\n\n"
           elif item == "sonar-reasoning":
-            tags = tags + "(Refer to this answer as **Deepseek** in your output)\n"
+            tags = tags + "(Refer to this answer as **Deepseek** in your output)\n\n"
           elif item == "gemini-1.5-pro-002":
-            tags = tags + "(Refer to this answer as **Gemini** in your output)\n"
-        o1_prompt = o1_prompt + tags + "\nHere are the answers:\n\n"
+            tags = tags + "(Refer to this answer as **Gemini** in your output)\n\n"
+        o1_prompt = o1_prompt + tags + "Here are the answers:\n\n"
         st.write(o1_prompt)
         #tags = "Your task is to do a point-by-point comparison of the answers contained in the following tags: "
         #for item in Model_Select:
         #  tags = tags + "<answer_" + item + ">, "
         #o1_prompt = tags + "highlighting (A) where they agree; (B) where they differ; (C) whether any claims raise questions about factual accuracy; (D) whether there may be other relevant perspectives not covered in the answers.\n\n"  
-        st.write(o1_prompt)
+        #st.write(o1_prompt)
         response = client_openai.chat.completions.create(model="o1", messages=[{"role": "user", "content": o1_prompt + combined_output}])
         compare_text = response.choices[0].message.content
         end = time.time() 
