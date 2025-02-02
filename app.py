@@ -188,9 +188,11 @@ if st.button("Let\'s Go! :rocket:") and input.strip() != "" and Intern_Select !=
           
         if "Oscar" in Compare_Select:
             start = time.time()
+            st.write("I AM HERE #1")
             response = client_openai.chat.completions.create(model="o1", messages=[{"role": "user", "content": compare_prompt + combined_output}])
             compare_text = response.choices[0].message.content
             end = time.time() 
+            st.write("I AM HERE #2")
             with st.expander("**Oscar**, ", Product_Option + ", " + input, expanded = True):
               st.write(compare_text.replace('\n','\n\n'))
               st.write("Time to generate: " + str(round(end-start,2)) + " seconds")
@@ -199,9 +201,11 @@ if st.button("Let\'s Go! :rocket:") and input.strip() != "" and Intern_Select !=
 
         if "Graham" in Compare_Select:
             start = time.time()
+            st.write("I AM HERE #3")
             response = client_thinker.models.generate_content(model="gemini-2.0-flash-thinking-exp-01-21", config={'thinking_config': {'include_thoughts': True}}, contents = compare_prompt + combined_output)
             compare_text = response.text
             end = time.time() 
+            st.write("I AM HERE #4")
             with st.expander("**Graham**, ", Product_Option + ", " + input, expanded = True):
               st.write(compare_text.replace('\n','\n\n'))
               st.write("Time to generate: " + str(round(end-start,2)) + " seconds")
