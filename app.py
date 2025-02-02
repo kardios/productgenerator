@@ -105,7 +105,7 @@ with st.expander("Click to read documentation", expanded = True):
   st.write("- **Oscar** (o1 by OpenAI)")
   st.write("- **Graham** (gemini-2.0-flash-thinking-exp-01-21 by Google)")
     
-Model_Select = st.multiselect("Which **Interns** do I use?", ['sonar-pro', 'sonar-reasoning', 'gemini-1.5-pro-002'], ['sonar-pro', 'sonar-reasoning', 'gemini-1.5-pro-002'])
+Intern_Select = st.multiselect("Which **Interns** do I use?", ['Sonar', 'Deepseek', 'Gemini'], ['Sonar', 'Deepseek', 'Gemini'])
 Compare_Select = st.multiselect("Which **Supervisors** do I use?", ['Oscar', 'Graham'], ['Oscar', 'Graham']) 
 Product_Option = st.selectbox("What product do you want to generate?", ('CV', 'Developments'))
 
@@ -116,43 +116,51 @@ elif Product_Option == "Developments":
   input = st.text_input("What is the name of the country or region?")
   Customised_Prompt = generate_developments_prompt(input)
 
-if st.button("Let\'s Go! :rocket:") and input.strip() != "" and Model_Select != []:
+if st.button("Let\'s Go! :rocket:") and input.strip() != "" and Intern_Select != []:
   try:
     with st.spinner("Running AI Model....."):
 
       combined_output = ""
-      for Model_Option in Model_Select:
+      for Intern in Intern_Select:
       
-        if Model_Option == "sonar-reasoning" or Model_Option == "sonar-pro":
+        if Intern == "Sonar":
           start = time.time()
-          response = client_sonar.chat.completions.create(model=Model_Option, messages=[{ "role": "user", "content": Customised_Prompt }], temperature = 0.5)
+          response = client_sonar.chat.completions.create(model="sonar-pro", messages=[{ "role": "user", "content": Customised_Prompt }], temperature = 0.5)
           output_text = response.choices[0].message.content 
           end = time.time()
-
-          if Model_Option == "sonar-reasoning": 
-              temp_str = "**Deepseek**, "
-          elif Model_Option == "sonar-pro":
-              temp_str = "**Sonar**, "
-              
-          with st.expander(temp_str + Product_Option + ", " + input, expanded = True):
+          with st.expander("**Sonar**, " + Product_Option + ", " + input, expanded = True):
             st.markdown(output_text.replace('\n','\n\n'))
             st_copy_to_clipboard(output_text)
-            combined_output = combined_output + "<answer_" + Model_Option + ">\n\n" + output_text + "\n\n</answer_" + Model_Option + ">\n\n" 
+            combined_output = combined_output + "<answer_" + Intern + ">\n\n" + output_text + "\n\n</answer_" + Intern + ">\n\n" 
+            st.write("Time to generate: " + str(round(end-start,2)) + " seconds")
+            st.write("Sources:")
+            for citation in response.citations:
+              st.write(citation)
+
+        elif Intern == "Deepseek":
+          start = time.time()
+          response = client_sonar.chat.completions.create(model="sonar-reasoning", messages=[{ "role": "user", "content": Customised_Prompt }], temperature = 0.5)
+          output_text = response.choices[0].message.content 
+          end = time.time()
+          with st.expander("**Deepseek**, " + Product_Option + ", " + input, expanded = True):
+            st.markdown(output_text.replace('\n','\n\n'))
+            st_copy_to_clipboard(output_text)
+            combined_output = combined_output + "<answer_" + Intern + ">\n\n" + output_text + "\n\n</answer_" + Intern + ">\n\n" 
             st.write("Time to generate: " + str(round(end-start,2)) + " seconds")
             st.write("Sources:")
             for citation in response.citations:
               st.write(citation)
       
-        elif Model_Option == "gemini-1.5-pro-002":
+        elif Intern == "Gemini":
           start = time.time()
-          gemini = gen_ai.GenerativeModel(Model_Option)
+          gemini = gen_ai.GenerativeModel("gemini-1.5-pro-002")
           response = gemini.generate_content(Customised_Prompt, safety_settings = safety_settings, generation_config = generation_config, tools = "google_search_retrieval")
           output_text = response.text
           end = time.time()
         
           with st.expander("**Gemini**, " + Product_Option + ", " + input, expanded = True):
             st.markdown(output_text)
-            combined_output = combined_output + "<answer_" + Model_Option + ">\n\n" + output_text + "\n\n</answer_" + Model_Option + ">\n\n" 
+            combined_output = combined_output + "<answer_" + Intern + ">\n\n" + output_text + "\n\n</answer_" + Intern + ">\n\n" 
             st_copy_to_clipboard(output_text)
             st.write("Time to generate: " + str(round(end-start,2)) + " seconds")
             st.write("Sources:")
@@ -165,28 +173,23 @@ if st.button("Let\'s Go! :rocket:") and input.strip() != "" and Model_Select != 
               st.write(f"[{title}]({uri})")
           
         st.snow()
-        bot.send_message(chat_id=recipient_user_id, text="Sherwood Generator" + "\n" + Model_Option + "\n" + Product_Option + "\n" + input)
+        bot.send_message(chat_id=recipient_user_id, text="Sherwood Generator" + "\n" + Intern + "\n" + Product_Option + "\n" + input)
 
       st_copy_to_clipboard(combined_output)
         
-      if len(Model_Select) > 1 and len(Compare_Select) > 0:
+      if len(Intern_Select) > 1 and len(Compare_Select) > 0:
           
-        o1_prompt = "Your task is to do a point-by-point comparison of the answers below, highlighting (A) where they agree; (B) where they differ; (C) whether any claims raise questions about factual accuracy; (D) any other relevant perspectives not covered in the answers.\n\n" 
-        o1_prompt = o1_prompt + "The answers are contained in the tags below.\n\n"
+        compare_prompt = "Your task is to do a point-by-point comparison of the answers below, highlighting (A) where they agree; (B) where they differ; (C) whether any claims raise questions about factual accuracy; (D) any other relevant perspectives not covered in the answers.\n\n" 
+        compare_prompt = compare_prompt + "The answers are contained in the tags below.\n\n"
         tags = ""
-        for item in Model_Select:
-          tags = tags + "<answer_" + item + "> "
-          if item == "sonar-pro":
-            tags = tags + "(Refer to this answer as **Sonar** in your output)\n\n"
-          elif item == "sonar-reasoning":
-            tags = tags + "(Refer to this answer as **Deepseek** in your output)\n\n"
-          elif item == "gemini-1.5-pro-002":
-            tags = tags + "(Refer to this answer as **Gemini** in your output)\n\n"
-        o1_prompt = o1_prompt + tags + "Here are the answers:\n\n"
-        
+        for Intern in Intern_Select:
+          tags = tags + "<answer_" + Intern + "> (Refer to this answer as **" + Intern + "** in your output)\n\n"
+        compare_prompt = compare_prompt + tags + "Here are the answers:\n\n"
+        st.write(compare_prompt)
+          
         if "Oscar" in Compare_Select:
             start = time.time()
-            response = client_openai.chat.completions.create(model="o1", messages=[{"role": "user", "content": o1_prompt + combined_output}])
+            response = client_openai.chat.completions.create(model="o1", messages=[{"role": "user", "content": compare_prompt + combined_output}])
             compare_text = response.choices[0].message.content
             end = time.time() 
             with st.expander("**Oscar**, ", Product_Option + ", " + input, expanded = True):
@@ -197,7 +200,7 @@ if st.button("Let\'s Go! :rocket:") and input.strip() != "" and Model_Select != 
 
         if "Graham" in Compare_Select:
             start = time.time()
-            response = client_thinker.models.generate_content(model="gemini-2.0-flash-thinking-exp-01-21", config={'thinking_config': {'include_thoughts': True}}, contents = o1_prompt + combined_output)
+            response = client_thinker.models.generate_content(model="gemini-2.0-flash-thinking-exp-01-21", config={'thinking_config': {'include_thoughts': True}}, contents = compare_prompt + combined_output)
             compare_text = response.text
             end = time.time() 
             with st.expander("**Graham**, ", Product_Option + ", " + input, expanded = True):
