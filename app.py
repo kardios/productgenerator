@@ -184,7 +184,7 @@ if st.button("Let\'s Go! :rocket:") and input.strip() != "" and Model_Select != 
         response = client_openai.chat.completions.create(model="o1", messages=[{"role": "user", "content": o1_prompt + combined_output}])
         compare_text = response.choices[0].message.content
         end = time.time() 
-        with st.expander("input " + Product_Option + " o1", expanded = True):
+        with st.expander(input + " " + Product_Option + " o1", expanded = True):
           st.write(compare_text.replace('\n','\n\n'))
           st.write("Time to generate: " + str(round(end-start,2)) + " seconds")
           st_copy_to_clipboard(compare_text)
@@ -194,7 +194,7 @@ if st.button("Let\'s Go! :rocket:") and input.strip() != "" and Model_Select != 
         response = client_thinker.models.generate_content(model="gemini-2.0-flash-thinking-exp-01-21", config={'thinking_config': {'include_thoughts': True}}, contents = o1_prompt + combined_output)
         compare_text = response.text
         end = time.time() 
-        with st.expander("input " + Product_Option + " ", expanded = True):
+        with st.expander(input + " " + Product_Option + " Flash Thinking", expanded = True):
           st.write(compare_text.replace('\n','\n\n'))
           st.write("Time to generate: " + str(round(end-start,2)) + " seconds")
           st_copy_to_clipboard(compare_text)
