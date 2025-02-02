@@ -97,7 +97,7 @@ st.set_page_config(page_title="Sherwood Generator", page_icon=":face_with_cowboy
 st.write("**Sherwood Generator** :face_with_cowboy_hat:")
 with st.expander("Click to read documentation", expanded = True):
   st.write("Experimental research tool to support drafting of **CV** and **Developments** papers")
-  st.write("Uses several cutting edge Large Language Models (LLMs) as Interns and Reviewers :robot:")
+  st.write("Uses several cutting edge Large Language Models (LLMs) as Interns and Reviewers :robot_face:")
   st.write("Deploy up to three **Interns** to generate the first cut from online sources:")
   st.write("- **Sonar** (sonar-pro by Perplexity)")
   st.write("- **Deepseek** (sonar-reasoning by Perplexity)")
@@ -105,7 +105,7 @@ with st.expander("Click to read documentation", expanded = True):
   st.write("Deploy up to two **Reviewers** to compare the answers drafted by the Interns:")
   st.write("- **Oscar** (o1 by OpenAI)")
   st.write("- **Graham** (gemini-2.0-flash-thinking-exp-01-21 by Google)")
-  st.write("Reviewers do not have access to the internet but will review the answers to highlight where they agree, where they differ, whether there are claims that raise questions of factual accuracy, and whether there are other relevant perspectives that are not covered in the answers.") 
+  st.write("The Reviewers do not have access to the internet but will review the answers to highlight where they agree, where they differ, whether there are claims that raise questions of factual accuracy, and whether there are other relevant perspectives that are not covered in the answers.") 
   
 Intern_Select = st.multiselect("Which **Interns** do I use?", ['Sonar', 'Deepseek', 'Gemini'], ['Sonar', 'Deepseek', 'Gemini'])
 Compare_Select = st.multiselect("Which **Reviewers** do I use?", ['Oscar', 'Graham'], ['Oscar', 'Graham']) 
