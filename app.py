@@ -180,7 +180,7 @@ if st.button("Let\'s Go! :rocket:") and input.strip() != "" and Intern_Select !=
         
       if len(Intern_Select) > 1 and len(Compare_Select) > 0:
           
-        compare_prompt = "Your task is to do a point-by-point comparison of the answers below, highlighting (A) where they agree; (B) where they differ; (C) whether any claims raise questions about factual accuracy; (D) any other relevant perspectives not covered in the answers.\n\n" 
+        compare_prompt = "Your task is to do a point-by-point comparison of the answers below, highlighting (A) where they agree; (B) where they differ; (C) whether any claims raise questions about factual accuracy; (D) any other relevant perspectives not covered in the answers. No need to have a summary table of the similarities and differences.\n\n" 
         compare_prompt = compare_prompt + "The answers are contained in the tags below.\n\n"
         tags = ""
         for Intern in Intern_Select:
