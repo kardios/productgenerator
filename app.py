@@ -160,11 +160,11 @@ if st.button("Let\'s Go! :rocket:") and input.strip() != "" and Model_Select != 
         tags = ""
         for item in Model_Select:
           tags = tags + "<answer_" + item + "> "
-          if item = "sonar-pro":
+          if item == "sonar-pro":
             tags = tags + "(Refer to this answer as **Sonar** in your output)\n"
-          elif item = "sonar-reasoning":
+          elif item == "sonar-reasoning":
             tags = tags + "(Refer to this answer as **Deepseek** in your output)\n"
-          elif item = "gemini-1.5-pro-002":
+          elif item == "gemini-1.5-pro-002":
             tags = tags + "(Refer to this answer as **Gemini** in your output)\n"
         o1_prompt = o1_prompt + tags + "\nHere are the answers:\n\n"
         st.write(o1_prompt)
