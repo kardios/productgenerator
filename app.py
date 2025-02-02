@@ -155,7 +155,7 @@ if st.button("Let\'s Go! :rocket:") and input.strip() != "" and Model_Select != 
       st_copy_to_clipboard(combined_output)
       if len(Model_Select) > 1:
         start = time.time()
-        tags = "Compare the answers contained in the following tags: "
+        tags = "Do a point-by-point comparison of the answers contained in the following tags: "
         for item in Model_Select:
           tags = tags + "<answer_" + item + ">, "
         o1_prompt = tags + "highlighting (A) where they agree; (B) where they differ; (C) whether any claims raise questions about factual accuracy; (D) whether there may be other relevant perspectives not covered in the answers.\n\n"  
