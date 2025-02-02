@@ -126,7 +126,12 @@ if st.button("Let\'s Go! :rocket:") and input.strip() != "" and Model_Select != 
           output_text = response.choices[0].message.content 
           end = time.time()
 
-          with st.expander(input + " " + Product_Option + " " + Model_Option, expanded = True):
+          if Model_Option == "sonar-reasoning": 
+              temp_str = "**Deepseek**"
+          elif Model_Option == "sonar-pro":
+              temp_str = "**Sonar**"
+              
+          with st.expander(input + ", " + Product_Option + ", " + temp_str, expanded = True):
             st.markdown(output_text.replace('\n','\n\n'))
             st_copy_to_clipboard(output_text)
             combined_output = combined_output + "<answer_" + Model_Option + ">\n\n" + output_text + "\n\n</answer_" + Model_Option + ">\n\n" 
@@ -142,7 +147,7 @@ if st.button("Let\'s Go! :rocket:") and input.strip() != "" and Model_Select != 
           output_text = response.text
           end = time.time()
         
-          with st.expander(input + " " + Product_Option + " " + Model_Option, expanded = True):
+          with st.expander(input + ", " + Product_Option + ", " + "**Gemini**", expanded = True):
             st.markdown(output_text)
             combined_output = combined_output + "<answer_" + Model_Option + ">\n\n" + output_text + "\n\n</answer_" + Model_Option + ">\n\n" 
             st_copy_to_clipboard(output_text)
