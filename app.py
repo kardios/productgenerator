@@ -125,10 +125,10 @@ if st.button("Let\'s Go! :rocket:") and input.strip() != "" and Customised_Promp
   st.divider()
 
   if input == "Custom":
-    response_phrase = client_openai.chat.completions.create(model="gpt-4o-mini", messages=[{"role": "system", "content": ""}, {"role": "user", "content": "Summarise into a phrase:\n\n" + Customised_Prompt}], temperature=0.5)
-    input = response_phrase.choices[0].message.content
     response_prompt = client_openai.chat.completions.create(model="gpt-4o-mini", messages=[{"role": "system", "content": ""}, {"role": "user", "content": "Improve this prompt:\n\n" + Customised_Prompt}], temperature=0.5)
     Customised_Prompt = response_prompt.choices[0].message.content
+    response_phrase = client_openai.chat.completions.create(model="gpt-4o-mini", messages=[{"role": "system", "content": ""}, {"role": "user", "content": "Summarise into a phrase:\n\n" + Customised_Prompt}], temperature=0.5)
+    input = response_phrase.choices[0].message.content
     st.write(input)
     st.write(Customised_Prompt)
     
