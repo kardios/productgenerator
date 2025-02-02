@@ -96,20 +96,20 @@ The report should be structured as follows:
 st.set_page_config(page_title="Sherwood Generator", page_icon=":face_with_cowboy_hat:")
 st.write("**Sherwood Generator** :face_with_cowboy_hat:")
 with st.expander("Click to read documentation", expanded = True):
-  st.write("Experimental tool to support drafting of **CV** and **Developments** papers, or custom products")
+  st.write("Experimental tool to support drafting of **CV**s, **Developments** papers and custom products")
   st.write("Try putting several Large Language Models (LLMs) to work as your personal research team!")
-  st.write("Deploy up to three **Interns** to independently generate the first cut from online sources:")
+  st.write("Deploy up to three **interns** to independently generate the first cut from online sources:")
   st.write("- **Sonar** (sonar-pro by Perplexity)")
   st.write("- **Deepseek** (sonar-reasoning by Perplexity)")
   st.write("- **Gemini** (gemini-1.5-pro-002 by Google)")
-  st.write("Deploy up to two **Reviewers** to independently compare the answers drafted by the Interns:")
+  st.write("Deploy up to two **reviewers** to independently compare the answers drafted by the interns:")
   st.write("- **Oscar** (o1 by OpenAI)")
   st.write("- **Graham** (gemini-2.0-flash-thinking-exp-01-21 by Google)")
-  st.write("The Reviewers do not have access to internet but will compare the answers drafted by the Interns to highlight where they agree, where they differ, whether there are claims that raise questions of factual accuracy, and whether there are any other relevant perspectives that are not covered in the answers.")
+  st.write("The reviewers do not have access to internet but will compare the answers drafted by the interns to highlight where they agree, where they differ, whether there are claims that raise questions of factual accuracy, and whether there are any other relevant perspectives that are not covered in the answers.")
   
-Intern_Select = st.multiselect("Which **Interns** would you like to deploy?", ['Sonar', 'Deepseek', 'Gemini'], ['Sonar', 'Deepseek', 'Gemini'])
-Compare_Select = st.multiselect("Which **Reviewers** would you like to deploy?", ['Oscar', 'Graham'], ['Oscar', 'Graham']) 
-Product_Option = st.selectbox("What **Product** would like them to work on?", ('CV', 'Developments', 'Custom'))
+Intern_Select = st.multiselect("Which **interns** would you like to deploy?", ['Sonar', 'Deepseek', 'Gemini'], ['Sonar', 'Deepseek', 'Gemini'])
+Compare_Select = st.multiselect("Which **reviewers** would you like to deploy?", ['Oscar', 'Graham'], ['Oscar', 'Graham']) 
+Product_Option = st.selectbox("What **product** would like them to work on?", ('CV', 'Developments', 'Custom'))
 
 if Product_Option == "CV":
   input = st.text_input("What is the name of the individual?")
