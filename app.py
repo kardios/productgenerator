@@ -97,13 +97,16 @@ st.set_page_config(page_title="Sherwood Generator", page_icon=":face_with_cowboy
 st.write("**Sherwood Generator** :face_with_cowboy_hat:")
 with st.expander("Click to read documentation", expanded = True):
   st.write("Productivity tool for generating **CV** and **Developments** papers")
-  st.write("Choose from the following internet-enabled Large Language Models:")
+  st.write("Deploy up to three internet-enabled LLMs to generate the first cut:")
   st.write("- **Sonar** (sonar-pro by Perplexity)")
   st.write("- **Deepseek** (sonar-reasoning by Perplexity)")
   st.write("- **Gemini** (gemini-1.5-pro-002 by Google)")
-  st.write("Compare generated answers using **o1** (by OpenAI) and **gemini-2.0-flash-thinking-exp-01-21** (by Google) to highlight where they agree, where they differ, whether there are any claims that raise questions about factual accuracy, and any other relevant perspectives not covered in the answers.")
-
-Model_Select = st.multiselect("What Large Language Model do I use?", ['sonar-pro', 'sonar-reasoning', 'gemini-1.5-pro-002'], ['sonar-pro', 'sonar-reasoning', 'gemini-1.5-pro-002'])
+  st.write("Deploy up to two reasoning LLMs to compare the generated answers:")
+  st.write("- **Oscar** (o1 by OpenAI)")
+  st.write("- **Graham** (gemini-2.0-flash-thinking-exp-01-21 by Google)")
+    
+Model_Select = st.multiselect("What internet-enabled LLM do I use?", ['sonar-pro', 'sonar-reasoning', 'gemini-1.5-pro-002'], ['sonar-pro', 'sonar-reasoning', 'gemini-1.5-pro-002'])
+Compare_Select = st.multiselect("What reasoning LLMs do I use?", ['Oscar', 'Graham'], ['Oscar', 'Graham']) 
 Product_Option = st.selectbox("What product do you want to generate?", ('CV', 'Developments'))
 
 if Product_Option == "CV":
@@ -127,11 +130,11 @@ if st.button("Let\'s Go! :rocket:") and input.strip() != "" and Model_Select != 
           end = time.time()
 
           if Model_Option == "sonar-reasoning": 
-              temp_str = "**Deepseek**"
+              temp_str = "**Deepseek**, "
           elif Model_Option == "sonar-pro":
-              temp_str = "**Sonar**"
+              temp_str = "**Sonar**, "
               
-          with st.expander(input + ", " + Product_Option + ", " + temp_str, expanded = True):
+          with st.expander(temp_str, Product_Option + ", " + input, expanded = True):
             st.markdown(output_text.replace('\n','\n\n'))
             st_copy_to_clipboard(output_text)
             combined_output = combined_output + "<answer_" + Model_Option + ">\n\n" + output_text + "\n\n</answer_" + Model_Option + ">\n\n" 
@@ -147,7 +150,7 @@ if st.button("Let\'s Go! :rocket:") and input.strip() != "" and Model_Select != 
           output_text = response.text
           end = time.time()
         
-          with st.expander(input + ", " + Product_Option + ", " + "**Gemini**", expanded = True):
+          with st.expander("**Gemini**, " + Product_Option + ", " + input, expanded = True):
             st.markdown(output_text)
             combined_output = combined_output + "<answer_" + Model_Option + ">\n\n" + output_text + "\n\n</answer_" + Model_Option + ">\n\n" 
             st_copy_to_clipboard(output_text)
@@ -165,7 +168,8 @@ if st.button("Let\'s Go! :rocket:") and input.strip() != "" and Model_Select != 
         bot.send_message(chat_id=recipient_user_id, text="Sherwood Generator" + "\n" + Model_Option + "\n" + Product_Option + "\n" + input)
 
       st_copy_to_clipboard(combined_output)
-      if len(Model_Select) > 1:
+      if len(Model_Select) > 1 and len(Compare_Select) > 0:
+          
         o1_prompt = "Your task is to do a point-by-point comparison of the answers below, highlighting (A) where they agree; (B) where they differ; (C) whether any claims raise questions about factual accuracy; (D) any other relevant perspectives not covered in the answers.\n\n" 
         o1_prompt = o1_prompt + "The answers are contained in the tags below.\n\n"
         tags = ""
@@ -178,32 +182,28 @@ if st.button("Let\'s Go! :rocket:") and input.strip() != "" and Model_Select != 
           elif item == "gemini-1.5-pro-002":
             tags = tags + "(Refer to this answer as **Gemini** in your output)\n\n"
         o1_prompt = o1_prompt + tags + "Here are the answers:\n\n"
-        #st.write(o1_prompt)
-        #tags = "Your task is to do a point-by-point comparison of the answers contained in the following tags: "
-        #for item in Model_Select:
-        #  tags = tags + "<answer_" + item + ">, "
-        #o1_prompt = tags + "highlighting (A) where they agree; (B) where they differ; (C) whether any claims raise questions about factual accuracy; (D) whether there may be other relevant perspectives not covered in the answers.\n\n"  
-        #st.write(o1_prompt)
         
-        start = time.time()
-        response = client_openai.chat.completions.create(model="o1", messages=[{"role": "user", "content": o1_prompt + combined_output}])
-        compare_text = response.choices[0].message.content
-        end = time.time() 
-        with st.expander(input + " " + Product_Option + " o1", expanded = True):
-          st.write(compare_text.replace('\n','\n\n'))
-          st.write("Time to generate: " + str(round(end-start,2)) + " seconds")
-          st_copy_to_clipboard(compare_text)
-        st.balloons()
+        if "Oscar" in Compare_Select:
+            start = time.time()
+            response = client_openai.chat.completions.create(model="o1", messages=[{"role": "user", "content": o1_prompt + combined_output}])
+            compare_text = response.choices[0].message.content
+            end = time.time() 
+            with st.expander("**Oscar**, ", Product_Option + ", " + input, expanded = True):
+              st.write(compare_text.replace('\n','\n\n'))
+              st.write("Time to generate: " + str(round(end-start,2)) + " seconds")
+              st_copy_to_clipboard(compare_text)
+            st.balloons()
 
-        start = time.time()
-        response = client_thinker.models.generate_content(model="gemini-2.0-flash-thinking-exp-01-21", config={'thinking_config': {'include_thoughts': True}}, contents = o1_prompt + combined_output)
-        compare_text = response.text
-        end = time.time() 
-        with st.expander(input + " " + Product_Option + " Flash Thinking", expanded = True):
-          st.write(compare_text.replace('\n','\n\n'))
-          st.write("Time to generate: " + str(round(end-start,2)) + " seconds")
-          st_copy_to_clipboard(compare_text)
-        st.balloons()
+        if "Graham" in Compare_Select:
+            start = time.time()
+            response = client_thinker.models.generate_content(model="gemini-2.0-flash-thinking-exp-01-21", config={'thinking_config': {'include_thoughts': True}}, contents = o1_prompt + combined_output)
+            compare_text = response.text
+            end = time.time() 
+            with st.expander("**Graham**, ", Product_Option + ", " + input, expanded = True):
+              st.write(compare_text.replace('\n','\n\n'))
+              st.write("Time to generate: " + str(round(end-start,2)) + " seconds")
+              st_copy_to_clipboard(compare_text)
+            st.balloons()
   
   except:
     st.error(" Error occurred when running model", icon="🚨")
