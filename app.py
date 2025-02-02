@@ -107,9 +107,9 @@ with st.expander("Click to read documentation", expanded = True):
   st.write("- **Graham** (gemini-2.0-flash-thinking-exp-01-21 by Google)")
   st.write("The Reviewers do not have access to the internet but will review the answers drafted by the Interns to highlight where they agree, where they differ, whether there are claims that raise questions of factual accuracy, and whether there are other relevant perspectives not covered in the answers.")
   
-Intern_Select = st.multiselect("Which **Interns** do I use?", ['Sonar', 'Deepseek', 'Gemini'], ['Sonar', 'Deepseek', 'Gemini'])
-Compare_Select = st.multiselect("Which **Reviewers** do I use?", ['Oscar', 'Graham'], ['Oscar', 'Graham']) 
-Product_Option = st.selectbox("What **Products** do you want to generate?", ('CV', 'Developments'))
+Intern_Select = st.multiselect("Which **Interns** would you like to deploy?", ['Sonar', 'Deepseek', 'Gemini'], ['Sonar', 'Deepseek', 'Gemini'])
+Compare_Select = st.multiselect("Which **Reviewers** would you like to deploy?", ['Oscar', 'Graham'], ['Oscar', 'Graham']) 
+Product_Option = st.selectbox("What **Product** would like them to work on?", ('CV', 'Developments'))
 
 if Product_Option == "CV":
   input = st.text_input("What is the name of the individual?")
