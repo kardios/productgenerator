@@ -186,7 +186,7 @@ if st.button("Let\'s Go! :rocket:") and input.strip() != "" and Intern_Select !=
         for Intern in Intern_Select:
           tags = tags + "<answer_" + Intern + "> (Refer to this answer as **" + Intern + "** in your output)\n\n"
         compare_prompt = compare_prompt + tags + "Here are the answers:\n\n"
-        st.write(compare_prompt)
+        #st.write(compare_prompt)
           
         if "Oscar" in Compare_Select:
             start = time.time()
@@ -198,6 +198,7 @@ if st.button("Let\'s Go! :rocket:") and input.strip() != "" and Intern_Select !=
               st.write("Time to generate: " + str(round(end-start,2)) + " seconds")
               st_copy_to_clipboard(compare_text)
             st.balloons()
+            bot.send_message(chat_id=recipient_user_id, text="Sherwood Generator" + "\n" + "Oscar" + "\n" + Product_Option + "\n" + input)
 
         if "Graham" in Compare_Select:
             start = time.time()
@@ -209,6 +210,7 @@ if st.button("Let\'s Go! :rocket:") and input.strip() != "" and Intern_Select !=
               st.write("Time to generate: " + str(round(end-start,2)) + " seconds")
               st_copy_to_clipboard(compare_text)
             st.balloons()
+            bot.send_message(chat_id=recipient_user_id, text="Sherwood Generator" + "\n" + "Graham" + "\n" + Product_Option + "\n" + input)
   
   except:
     st.error(" Error occurred when running model", icon="🚨")
