@@ -93,8 +93,8 @@ The report should be structured as follows:
 6. **International Relations**. Describe in detail the foreign policy orientation of {country}. Summarise the foreign relations of {country} with key international partners, with particular attention to ASEAN, its neighbouring countries, and Singapore."""
   return prompt 
 
-st.set_page_config(page_title="Sherwood Generator", page_icon=":face_with_cowboy_hat:")
-st.write("**Sherwood Generator** :face_with_cowboy_hat:")
+st.set_page_config(page_title="Sherwood Generator", page_icon=":earth_asia:")
+st.write("**Sherwood Team** :earth_asia:")
 with st.expander("Click to read documentation", expanded = True):
   st.write("Experimental tool to support drafting of **CV**s, **Developments** papers and custom products")
   st.write("Try putting several Large Language Models (LLMs) to work as your personal research team!")
