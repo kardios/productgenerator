@@ -132,7 +132,7 @@ if st.button("Let\'s Go! :rocket:") and input.strip() != "" and Intern_Select !=
           end = time.time()
           with st.expander("**Sonar**, " + Product_Option + ", " + input, expanded = True):
             st.markdown(output_text.replace('\n','\n\n'))
-            st.write("*Click :clipboard: to copy to clipboard:*")
+            st.write("*Click* :clipboard: *to copy to clipboard*")
             st_copy_to_clipboard(output_text)
             combined_output = combined_output + "<answer_" + Intern + ">\n\n" + output_text + "\n\n</answer_" + Intern + ">\n\n" 
             st.write("*Time to generate:* " + str(round(end-start,2)) + " seconds")
@@ -147,7 +147,7 @@ if st.button("Let\'s Go! :rocket:") and input.strip() != "" and Intern_Select !=
           end = time.time()
           with st.expander("**Deepseek**, " + Product_Option + ", " + input, expanded = True):
             st.markdown(output_text.replace('\n','\n\n'))
-            st.write("*Click :clipboard: to copy to clipboard:*")
+            st.write("*Click* :clipboard: *to copy to clipboard*")
             st_copy_to_clipboard(output_text)
             combined_output = combined_output + "<answer_" + Intern + ">\n\n" + output_text + "\n\n</answer_" + Intern + ">\n\n" 
             st.write("*Time to generate:* " + str(round(end-start,2)) + " seconds")
@@ -163,7 +163,7 @@ if st.button("Let\'s Go! :rocket:") and input.strip() != "" and Intern_Select !=
           end = time.time()
           with st.expander("**Gemini**, " + Product_Option + ", " + input, expanded = True):
             st.markdown(output_text)
-            st.write("*Click :clipboard: to copy to clipboard:*")
+            st.write("*Click* :clipboard: *to copy to clipboard*")
             st_copy_to_clipboard(output_text)
             combined_output = combined_output + "<answer_" + Intern + ">\n\n" + output_text + "\n\n</answer_" + Intern + ">\n\n" 
             st.write("*Time to generate:* " + str(round(end-start,2)) + " seconds")
@@ -179,7 +179,7 @@ if st.button("Let\'s Go! :rocket:") and input.strip() != "" and Intern_Select !=
         st.snow()
         bot.send_message(chat_id=recipient_user_id, text="Sherwood Generator" + "\n" + Intern + "\n" + Product_Option + "\n" + input)
 
-      st.write("*Click :clipboard: to copy all answers to clipboard:*")
+      st.write("*Click* :clipboard: *to copy all answers to clipboard*")
       st_copy_to_clipboard(combined_output)
       st.divider()
         
@@ -200,7 +200,7 @@ if st.button("Let\'s Go! :rocket:") and input.strip() != "" and Intern_Select !=
             end = time.time() 
             with st.expander("**Oscar**, " + Product_Option + ", " + input, expanded = True):
               st.write(compare_text.replace('\n','\n\n'))
-              st.write("*Click :clipboard: to copy to clipboard:*")
+              st.write("*Click* :clipboard: *to copy to clipboard*")
               st_copy_to_clipboard(compare_text)
               st.write("*Time to generate:* " + str(round(end-start,2)) + " seconds")
             st.balloons()
@@ -213,7 +213,7 @@ if st.button("Let\'s Go! :rocket:") and input.strip() != "" and Intern_Select !=
             end = time.time() 
             with st.expander("**Graham**, " + Product_Option + ", " + input, expanded = True):
               st.write(compare_text.replace('\n','\n\n'))
-              st.write("*Click :clipboard: to copy to clipboard:*")
+              st.write("*Click* :clipboard: *to copy to clipboard*")
               st_copy_to_clipboard(compare_text)
               st.write("*Time to generate:* " + str(round(end-start,2)) + " seconds")
             st.balloons()
