@@ -167,7 +167,7 @@ if st.button("Let\'s Go! :rocket:") and input.strip() != "" and Model_Select != 
           elif item == "gemini-1.5-pro-002":
             tags = tags + "(Refer to this answer as **Gemini** in your output)\n\n"
         o1_prompt = o1_prompt + tags + "Here are the answers:\n\n"
-        st.write(o1_prompt)
+        #st.write(o1_prompt)
         #tags = "Your task is to do a point-by-point comparison of the answers contained in the following tags: "
         #for item in Model_Select:
         #  tags = tags + "<answer_" + item + ">, "
