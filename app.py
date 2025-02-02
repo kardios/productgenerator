@@ -97,7 +97,7 @@ st.set_page_config(page_title="Sherwood Generator", page_icon=":face_with_cowboy
 st.write("**Sherwood Generator** :face_with_cowboy_hat:")
 with st.expander("Click to read documentation", expanded = True):
   st.write("Experimental research tool to support drafting of **CV** and **Developments** papers")
-  st.write("Uses several cutting edge Large Language Models (LLMs) as Interns and Reviewers :robot:"
+  st.write("Uses several cutting edge Large Language Models (LLMs) as Interns and Reviewers :robot:")
   st.write("Deploy up to three **Interns** to generate the first cut from online sources:")
   st.write("- **Sonar** (sonar-pro by Perplexity)")
   st.write("- **Deepseek** (sonar-reasoning by Perplexity)")
