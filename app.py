@@ -103,7 +103,7 @@ with st.expander("Click to read documentation", expanded = True):
   st.write("- **Deepseek** (sonar-reasoning by Perplexity)")
   st.write("- **Gemini** (gemini-1.5-pro-002 by Google)")
   st.write("Deploy up to two **reviewers** to independently compare the answers drafted by the interns:")
-  st.write("- **Oscar** (o1 by OpenAI)")
+  st.write("- **Oscar** (o3-mini by OpenAI)")
   st.write("- **Graham** (gemini-2.0-flash-thinking-exp-01-21 by Google)")
   st.write("The reviewers do not have access to internet but will compare the answers drafted by the interns to highlight where they agree, where they differ, whether there are claims that raise questions of factual accuracy, and whether there are any other relevant perspectives that are not covered in the answers.")
   
@@ -199,7 +199,7 @@ if st.button("Let\'s Go! :rocket:") and input.strip() != "" and Customised_Promp
           
         if "Oscar" in Compare_Select:
             start = time.time()
-            response = client_openai.chat.completions.create(model="o1", messages=[{"role": "user", "content": compare_prompt + combined_output}])
+            response = client_openai.chat.completions.create(model="o3-mini", messages=[{"role": "user", "content": compare_prompt + combined_output}])
             compare_text = response.choices[0].message.content
             end = time.time() 
             with st.expander("**Oscar**, " + Product_Option + ", " + input, expanded = True):
