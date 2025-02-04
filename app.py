@@ -138,7 +138,7 @@ st.set_page_config(page_title="Sherwood Generator", page_icon=":earth_asia:")
 st.write("**Sherwood Generator** :earth_asia:")
 with st.expander("Click to read documentation", expanded = True):
   st.write("Experimental tool to support research and drafting of products. Try putting several Large Language Models (LLMs) to work as your personal research team!")
-  st.write("- **CV**, **Factsheet**", **Developments** paper", and custom products")
+  st.write("- **CV**, **Factsheet**, **Developments** paper and custom products")
   st.write("Deploy up to three **interns** to independently generate the first cut from online sources:")
   st.write("- **Sonar** (sonar-pro by Perplexity)")
   st.write("- **Deepseek** (sonar-reasoning by Perplexity)")
