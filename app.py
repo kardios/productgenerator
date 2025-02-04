@@ -94,7 +94,7 @@ The report should be structured as follows:
   return prompt 
 
 st.set_page_config(page_title="Sherwood Generator", page_icon=":earth_asia:")
-st.write("**Sherwood Team** :earth_asia:")
+st.write("**Sherwood Generator** :earth_asia:")
 with st.expander("Click to read documentation", expanded = True):
   st.write("Experimental tool to support drafting of **CV**s, **Developments** papers and custom products")
   st.write("Try putting several Large Language Models (LLMs) to work as your personal research team!")
