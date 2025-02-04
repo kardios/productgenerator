@@ -112,7 +112,7 @@ Compare_Select = st.multiselect("Which **reviewers** would you like to deploy?",
 Product_Option = st.selectbox("What **product** would like them to work on?", ('CV', 'Developments', 'Custom'))
 
 if Product_Option == "CV":
-  input = st.text_input("What is the name of the individual?")
+  input = st.text_input("What is the name of the individual? Consider adding details like country and designation.")
   Customised_Prompt = generate_cv_prompt(input)
 elif Product_Option == "Developments":
   input = st.text_input("What is the name of the country or region?")
