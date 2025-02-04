@@ -149,7 +149,7 @@ with st.expander("Click to read documentation", expanded = True):
   st.write("The reviewers do not have access to internet but will compare the answers drafted by the interns to highlight where they agree, where they differ, whether there are claims that raise questions of factual accuracy, and whether there are any other relevant perspectives that are not covered in the answers.")
   
 Intern_Select = st.multiselect("Which **interns** would you like to deploy?", ['Sonar', 'Deepseek', 'Gemini'], ['Sonar', 'Deepseek', 'Gemini'])
-Compare_Select = st.multiselect("Which **reviewers** would you like to deploy?", ['Oscar', 'Graham'], ['Oscar', 'Graham']) 
+Compare_Select = st.multiselect("Which **reviewers** would you like to deploy?", ['Graham', 'Oscar'], ['Graham', 'Oscar']) 
 Product_Option = st.selectbox("What **product** would like them to work on?", ('CV', 'Factsheet', 'Developments', 'Custom'))
 
 if Product_Option == "CV":
