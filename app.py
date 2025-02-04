@@ -167,6 +167,13 @@ elif Product_Option == "Custom":
 
 if st.button("Let\'s Go! :rocket:") and input.strip() != "" and Customised_Prompt.strip() != "" and Intern_Select != []:
   st.divider()
+  
+  if input == "Custom":
+    response = client_openai.chat.completions.create(model="gpt-4o-mini", messages=[{"role": "user", "content": "Summarise into a short phrase:\n\n" + Customised_Prompt}])
+    key_phrase = response.choices[0].message.content
+  else:
+    key_phrase = input
+    
   try:
     with st.spinner("Running AI Model....."):
 
@@ -225,7 +232,7 @@ if st.button("Let\'s Go! :rocket:") and input.strip() != "" and Customised_Promp
               st.write(f"[{title}]({uri})")
           
         st.snow()
-        bot.send_message(chat_id=recipient_user_id, text="Sherwood Generator" + "\n" + Intern + "\n" + Product_Option + "\n" + input)
+        bot.send_message(chat_id=recipient_user_id, text="Sherwood Generator" + "\n" + Intern + "\n" + Product_Option + "\n" + key_phrase)
 
       st.write("*Click* :clipboard: *to copy all answers to clipboard*")
       st_copy_to_clipboard(combined_output)
@@ -241,31 +248,31 @@ if st.button("Let\'s Go! :rocket:") and input.strip() != "" and Customised_Promp
         compare_prompt = compare_prompt + tags + "Here are the answers:\n\n"
         #st.write(compare_prompt)
           
-        if "Oscar" in Compare_Select:
-            start = time.time()
-            response = client_openai.chat.completions.create(model="o1", messages=[{"role": "user", "content": compare_prompt + combined_output}])
-            compare_text = response.choices[0].message.content
-            end = time.time() 
-            with st.expander("**Oscar**, " + Product_Option + ", " + input, expanded = True):
-              st.write(compare_text.replace('\n','\n\n'))
-              st.write("*Click* :clipboard: *to copy to clipboard*")
-              st_copy_to_clipboard(compare_text)
-              st.write("*Time to generate:* " + str(round(end-start,2)) + " seconds")
-            st.balloons()
-            bot.send_message(chat_id=recipient_user_id, text="Sherwood Generator" + "\n" + "Oscar" + "\n" + Product_Option + "\n" + input)
-
         if "Graham" in Compare_Select:
-            start = time.time()
-            response = client_thinker.models.generate_content(model="gemini-2.0-flash-thinking-exp-01-21", config={'thinking_config': {'include_thoughts': True}}, contents = compare_prompt + combined_output)
-            compare_text = response.text
-            end = time.time() 
-            with st.expander("**Graham**, " + Product_Option + ", " + input, expanded = True):
-              st.write(compare_text.replace('\n','\n\n'))
-              st.write("*Click* :clipboard: *to copy to clipboard*")
-              st_copy_to_clipboard(compare_text)
-              st.write("*Time to generate:* " + str(round(end-start,2)) + " seconds")
-            st.balloons()
-            bot.send_message(chat_id=recipient_user_id, text="Sherwood Generator" + "\n" + "Graham" + "\n" + Product_Option + "\n" + input)
-  
+          start = time.time()
+          response = client_thinker.models.generate_content(model="gemini-2.0-flash-thinking-exp-01-21", config={'thinking_config': {'include_thoughts': True}}, contents = compare_prompt + combined_output)
+          compare_text = response.text
+          end = time.time() 
+          with st.expander("**Graham**, " + Product_Option + ", " + input, expanded = True):
+            st.write(compare_text.replace('\n','\n\n'))
+            st.write("*Click* :clipboard: *to copy to clipboard*")
+            st_copy_to_clipboard(compare_text)
+            st.write("*Time to generate:* " + str(round(end-start,2)) + " seconds")
+          st.balloons()
+          bot.send_message(chat_id=recipient_user_id, text="Sherwood Generator" + "\n" + "Graham" + "\n" + Product_Option + "\n" + key_phrase)
+
+        if "Oscar" in Compare_Select:
+          start = time.time()
+          response = client_openai.chat.completions.create(model="o1", messages=[{"role": "user", "content": compare_prompt + combined_output}])
+          compare_text = response.choices[0].message.content
+          end = time.time() 
+          with st.expander("**Oscar**, " + Product_Option + ", " + input, expanded = True):
+            st.write(compare_text.replace('\n','\n\n'))
+            st.write("*Click* :clipboard: *to copy to clipboard*")
+            st_copy_to_clipboard(compare_text)
+            st.write("*Time to generate:* " + str(round(end-start,2)) + " seconds")
+          st.balloons()
+          bot.send_message(chat_id=recipient_user_id, text="Sherwood Generator" + "\n" + "Oscar" + "\n" + Product_Option + "\n" + key_phrase)
+    
   except:
     st.error(" Error occurred when running model", icon="🚨")
