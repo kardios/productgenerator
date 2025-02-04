@@ -137,7 +137,11 @@ External Debt: [External Debt in US dollars and as % of GDP]"""
 st.set_page_config(page_title="Sherwood Generator", page_icon=":earth_asia:")
 st.write("**Sherwood Generator** :earth_asia:")
 with st.expander("Click to read documentation", expanded = True):
-  st.write("Experimental tool to support drafting of **CV**s, **Developments** papers and custom products")
+  st.write("Experimental tool to support drafting of products:")
+  st.write("- **CV**")
+  st.write("- **Factsheet**")
+  st.write("- **Developments** paper")
+  st.write("- Custom products")
   st.write("Try putting several Large Language Models (LLMs) to work as your personal research team!")
   st.write("Deploy up to three **interns** to independently generate the first cut from online sources:")
   st.write("- **Sonar** (sonar-pro by Perplexity)")
