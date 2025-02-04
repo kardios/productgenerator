@@ -153,27 +153,28 @@ Compare_Select = st.multiselect("Which **reviewers** would you like to deploy?",
 Product_Option = st.selectbox("What **product** would like them to work on?", ('CV', 'Factsheet', 'Developments', 'Custom'))
 
 if Product_Option == "CV":
-  input = st.text_input("What is the name of the individual? Consider adding details like country and designation.")
-  Customised_Prompt = generate_cv_prompt(input)
+  input_text = st.text_input("What is the name of the individual? Consider adding details like country and designation.")
+  Customised_Prompt = generate_cv_prompt(input_text)
 if Product_Option == "Factsheet":
-  input = st.text_input("What is the name of the country on which you wish to create a factsheet?")
-  Customised_Prompt = generate_factsheet_prompt(input)
+  input_text = st.text_input("What is the name of the country on which you wish to create a factsheet?")
+  Customised_Prompt = generate_factsheet_prompt(input_text)
 elif Product_Option == "Developments":
-  input = st.text_input("What is the name of the country or region?")
-  Customised_Prompt = generate_developments_prompt(input)
+  input_text = st.text_input("What is the name of the country or region?")
+  Customised_Prompt = generate_developments_prompt(input_text)
 elif Product_Option == "Custom":
-  input = "Custom"
+  input_text = "Custom"
   Customised_Prompt = st.text_area("Please provide the details of the product for the team.")
 
-if st.button("Let\'s Go! :rocket:") and input.strip() != "" and Customised_Prompt.strip() != "" and Intern_Select != []:
-  st.divider()
+if st.button("Let\'s Go! :rocket:") and input_text.strip() != "" and Customised_Prompt.strip() != "" and Intern_Select != []:
   
-  if input == "Custom":
+  if input_text == "Custom":
     response = client_openai.chat.completions.create(model="gpt-4o-mini", messages=[{"role": "user", "content": "Summarise into a short phrase:\n\n" + Customised_Prompt}])
     key_phrase = response.choices[0].message.content
   else:
-    key_phrase = input
-    
+    key_phrase = input_text
+  
+  st.divider()    
+  
   try:
     with st.spinner("Running AI Model....."):
 
@@ -185,7 +186,7 @@ if st.button("Let\'s Go! :rocket:") and input.strip() != "" and Customised_Promp
           response = client_sonar.chat.completions.create(model="sonar-pro", messages=[{ "role": "user", "content": Customised_Prompt }], temperature = 0.5)
           output_text = response.choices[0].message.content 
           end = time.time()
-          with st.expander("**Sonar**, " + Product_Option + ", " + input, expanded = True):
+          with st.expander("**Sonar**, " + Product_Option + ", " + key_phrase, expanded = True):
             st.markdown(output_text.replace('\n','\n\n'))
             st.write("*Click* :clipboard: *to copy to clipboard*")
             st_copy_to_clipboard(output_text)
@@ -200,7 +201,7 @@ if st.button("Let\'s Go! :rocket:") and input.strip() != "" and Customised_Promp
           response = client_sonar.chat.completions.create(model="sonar-reasoning", messages=[{ "role": "user", "content": Customised_Prompt }], temperature = 0.5)
           output_text = response.choices[0].message.content 
           end = time.time()
-          with st.expander("**Deepseek**, " + Product_Option + ", " + input, expanded = True):
+          with st.expander("**Deepseek**, " + Product_Option + ", " + key_phrase, expanded = True):
             st.markdown(output_text.replace('\n','\n\n'))
             st.write("*Click* :clipboard: *to copy to clipboard*")
             st_copy_to_clipboard(output_text)
@@ -216,7 +217,7 @@ if st.button("Let\'s Go! :rocket:") and input.strip() != "" and Customised_Promp
           response = gemini.generate_content(Customised_Prompt, safety_settings = safety_settings, generation_config = generation_config, tools = "google_search_retrieval")
           output_text = response.text
           end = time.time()
-          with st.expander("**Gemini**, " + Product_Option + ", " + input, expanded = True):
+          with st.expander("**Gemini**, " + Product_Option + ", " + key_phrase, expanded = True):
             st.markdown(output_text)
             st.write("*Click* :clipboard: *to copy to clipboard*")
             st_copy_to_clipboard(output_text)
@@ -253,7 +254,7 @@ if st.button("Let\'s Go! :rocket:") and input.strip() != "" and Customised_Promp
           response = client_thinker.models.generate_content(model="gemini-2.0-flash-thinking-exp-01-21", config={'thinking_config': {'include_thoughts': True}}, contents = compare_prompt + combined_output)
           compare_text = response.text
           end = time.time() 
-          with st.expander("**Graham**, " + Product_Option + ", " + input, expanded = True):
+          with st.expander("**Graham**, " + Product_Option + ", " + key_phrase, expanded = True):
             st.write(compare_text.replace('\n','\n\n'))
             st.write("*Click* :clipboard: *to copy to clipboard*")
             st_copy_to_clipboard(compare_text)
@@ -266,7 +267,7 @@ if st.button("Let\'s Go! :rocket:") and input.strip() != "" and Customised_Promp
           response = client_openai.chat.completions.create(model="o1", messages=[{"role": "user", "content": compare_prompt + combined_output}])
           compare_text = response.choices[0].message.content
           end = time.time() 
-          with st.expander("**Oscar**, " + Product_Option + ", " + input, expanded = True):
+          with st.expander("**Oscar**, " + Product_Option + ", " + key_phrase, expanded = True):
             st.write(compare_text.replace('\n','\n\n'))
             st.write("*Click* :clipboard: *to copy to clipboard*")
             st_copy_to_clipboard(compare_text)
