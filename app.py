@@ -168,7 +168,7 @@ elif Product_Option == "Custom":
 if st.button("Let\'s Go! :rocket:") and input_text.strip() != "" and Customised_Prompt.strip() != "" and Intern_Select != []:
   
   if input_text == "Custom":
-    response = client_openai.chat.completions.create(model="gpt-4o-mini", messages=[{"role": "user", "content": "Summarise into a short phrase:\n\n" + Customised_Prompt}])
+    response = client_openai.chat.completions.create(model="gpt-4o-mini", messages=[{"role": "user", "content": "Summarise into a short phrase, not more than a few words:\n\n" + Customised_Prompt}])
     key_phrase = response.choices[0].message.content
   else:
     key_phrase = input_text
