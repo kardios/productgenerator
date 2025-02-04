@@ -155,7 +155,7 @@ Product_Option = st.selectbox("What **product** would like them to work on?", ('
 if Product_Option == "CV":
   input = st.text_input("What is the name of the individual? Consider adding details like country and designation.")
   Customised_Prompt = generate_cv_prompt(input)
-if Product_Option = "Factsheet":
+if Product_Option == "Factsheet":
   input = st.text_input("What is the name of the country on which you wish to create a factsheet?")
   Customised_Prompt = generate_factsheet_prompt(input)
 elif Product_Option == "Developments":
