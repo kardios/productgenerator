@@ -93,6 +93,47 @@ The report should be structured as follows:
 6. **International Relations**. Describe in detail the foreign policy orientation of {country}. Summarise the foreign relations of {country} with key international partners, with particular attention to ASEAN, its neighbouring countries, and Singapore."""
   return prompt 
 
+def generate_factsheet_prompt(country):
+  prompt = f"""### Instruction ###
+You are an amazing research intern. I would like you to help me generate a factsheet of {country}. Use the format below.
+
+### Response ###
+FACTSHEET ON [NAME OF COUNTRY]
+Total Area: [Total Area in square kilometres]
+Population: [Population size]
+Ethnic Group: [List of ethnic groups, and percentage composition]
+Languages: [List of official and other languages]
+Government:
+Type: [Government Type]
+National Capital: [Name of National Capital]
+Administrative Division: [Nomenclature and Number of Administrative Divisions]
+Independence: [Date of Independence]
+Executive Branch:
+[name of chief of state]
+[name of head of governement]
+[cabinet list]
+[list of elections/appointments]
+Legislative Branch:
+[Description]
+Elections: [Type of Elections]
+Judicial Branch:
+Highest courts: [Name of Highest Courts]
+Judge Selections and Term of Office: [Description]
+Main Political Parties and Leaders: [List of main political parties and leaders]
+Economy:
+Real GDP (PPP): [Real GDP Purchasing Power Parity in US dollars]
+GDP - Real Growth Rate: [Real Growth Rate in %]
+Real GDP per capita (PPP): [Real GDP per capital (Purchasing Power Parity) in US dollars]
+Inflation Rate: [Inflation Rate in %]
+Exports:
+[List of main exports]
+[List of main exports partners]
+Imports:
+[List of main imports]
+[List of main imports partners]
+External Debt: [External Debt in US dollars and as % of GDP]"""
+  return prompt
+
 st.set_page_config(page_title="Sherwood Generator", page_icon=":earth_asia:")
 st.write("**Sherwood Generator** :earth_asia:")
 with st.expander("Click to read documentation", expanded = True):
@@ -109,11 +150,14 @@ with st.expander("Click to read documentation", expanded = True):
   
 Intern_Select = st.multiselect("Which **interns** would you like to deploy?", ['Sonar', 'Deepseek', 'Gemini'], ['Sonar', 'Deepseek', 'Gemini'])
 Compare_Select = st.multiselect("Which **reviewers** would you like to deploy?", ['Oscar', 'Graham'], ['Oscar', 'Graham']) 
-Product_Option = st.selectbox("What **product** would like them to work on?", ('CV', 'Developments', 'Custom'))
+Product_Option = st.selectbox("What **product** would like them to work on?", ('CV', 'Factsheet', 'Developments', 'Custom'))
 
 if Product_Option == "CV":
   input = st.text_input("What is the name of the individual? Consider adding details like country and designation.")
   Customised_Prompt = generate_cv_prompt(input)
+if Product_Option = "Factsheet":
+  input = st.text_input("What is the name of the country on which you wish to create a factsheet?")
+  Customised_Prompt = generate_factsheet_prompt(input)
 elif Product_Option == "Developments":
   input = st.text_input("What is the name of the country or region?")
   Customised_Prompt = generate_developments_prompt(input)
