@@ -141,7 +141,7 @@ with st.expander("Click to read documentation", expanded = True):
   st.write("- Generate **CV**, **Factsheet**, **Developments** paper and custom products")
   st.write("Deploy up to three **interns** to independently generate the first cut from online sources:")
   st.write("- **Sonar** (sonar-pro by Perplexity)")
-  st.write("- **Deepseek** (sonar-reasoning-pro by Perplexity)")
+  st.write("- **Deepseek** (sonar-reasoning by Perplexity)")
   st.write("- **Gemini** (gemini-1.5-pro-002 by Google)")
   st.write("Deploy up to two **reviewers** to independently compare the answers drafted by the interns:")
   st.write("- **Oscar** (o1 by OpenAI)")
@@ -198,7 +198,7 @@ if st.button("Let\'s Go! :rocket:") and input_text.strip() != "" and Customised_
 
         elif Intern == "Deepseek":
           start = time.time()
-          response = client_sonar.chat.completions.create(model="sonar-reasoning-pro", messages=[{ "role": "user", "content": Customised_Prompt }], temperature = 0.5)
+          response = client_sonar.chat.completions.create(model="sonar-reasoning", messages=[{ "role": "user", "content": Customised_Prompt }], temperature = 0.5)
           output_text = response.choices[0].message.content 
           end = time.time()
           with st.expander("**Deepseek**, " + Product_Option + ", " + key_phrase, expanded = True):
