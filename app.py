@@ -271,7 +271,7 @@ if st.button("Let\'s Go! :rocket:") and input_text.strip() != "" and Customised_
         for Intern in Intern_Select:
           tags = tags + "<answer_" + Intern + "> (Refer to this answer as **" + Intern + "** in your output)\n\n"
         compare_prompt = compare_prompt + tags + "Here are the answers:\n\n"
-        #st.write(compare_prompt)
+        st.write(compare_prompt)
           
         if "Graham" in Compare_Select:
           start = time.time()
