@@ -134,6 +134,16 @@ Imports:
 External Debt: [External Debt in US dollars and as % of GDP]"""
   return prompt
 
+def generate_response_prompt(country):
+  prompt = f"""### Task ###
+You are a top-tier research analyst. Your goal is to generate a list of up-to-date, high-quality headlines related to the response of {country} to the US reciprocal tariffs announced by the Trump Administration since Liberation Day.
+### Format ###
+For each headline:
+- Begin with a **bolded summary sentence** that captures the essence of the headline.
+- Follow with a brief contextual paragraph (2–3 sentences) explaining the significance or background of the story.
+- End with a direct link to a reputable source or article for further reading."""
+  return prompt
+
 st.set_page_config(page_title="Sherwood Generator", page_icon=":earth_asia:")
 st.write("**Sherwood Generator** :earth_asia:")
 with st.expander("Click to read documentation", expanded = True):
@@ -150,7 +160,7 @@ with st.expander("Click to read documentation", expanded = True):
   
 Intern_Select = st.multiselect("Which **interns** would you like to deploy?", ['Sonar', 'Deepseek', 'Gemini'], ['Sonar', 'Deepseek', 'Gemini'])
 Compare_Select = st.multiselect("Which **reviewers** would you like to deploy?", ['Graham', 'Oscar'], ['Graham', 'Oscar']) 
-Product_Option = st.selectbox("What **product** would like them to work on?", ('CV', 'Factsheet', 'Developments', 'Custom'))
+Product_Option = st.selectbox("What **product** would like them to work on?", ('CV', 'Factsheet', 'Developments', 'Response to US Reciprocal Tariffs', 'Custom'))
 
 if Product_Option == "CV":
   input_text = st.text_input("What is the name of the individual? Consider adding details like country and designation.")
@@ -161,6 +171,9 @@ if Product_Option == "Factsheet":
 elif Product_Option == "Developments":
   input_text = st.text_input("What is the name of the country or region?")
   Customised_Prompt = generate_developments_prompt(input_text)
+elif Product_Option == "Response to US Reciprocal Tariffs":
+  input_text = st.text_input("What is the name of the country?")
+  Customised_Prompt = generate_response_prompt(input_text)
 elif Product_Option == "Custom":
   input_text = "Custom"
   Customised_Prompt = st.text_area("Please provide the details of the product for the team.")
@@ -242,6 +255,17 @@ if st.button("Let\'s Go! :rocket:") and input_text.strip() != "" and Customised_
       if len(Intern_Select) > 1 and len(Compare_Select) > 0:
           
         compare_prompt = "Your task is to do a point-by-point comparison of the answers below, highlighting (A) where they agree; (B) where they differ; (C) whether any claims raise questions about factual accuracy; (D) any other relevant perspectives not covered in the answers. No need to have a summary table of the similarities and differences.\n\n" 
+
+        if product_option == "Response to US Reciprocal Tariffs":
+          compare_prompt = (
+          "# Task:\n"
+          "You are my intelligent reading assistant. Your job is to analyze the provided answers and organize the items into meaningful thematic clusters.\n\n"
+          "# Format:\n"
+          "Group items under clearly labeled **themes**. For each item:\n"
+          "- Start with a **bolded topic sentence** that summarizes the item.\n"
+          "- Include a detailed summary if available (2–4 sentences).\n"
+          "- Add a link to the original source, where applicable.\n\n")
+          
         compare_prompt = compare_prompt + "The answers are contained in the tags below.\n\n"
         tags = ""
         for Intern in Intern_Select:
